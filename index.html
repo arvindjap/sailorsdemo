@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html>
+
+<script>
+var plan1 = false;
+var plan2 = false;
+/*
+var screenContent1 = [
+             ["Set1 9:28 D1", "9:17 D1", "9:03 D1"],
+             ["Get1 9:15 D2", "9:50 D2", "9:01 D1"]
+           ];
+           */
+           
+var contentArray = [
+					  {activityName:"Get 1", col1:"9:15 D2", col2:"9:50 D2", col3:"9:01 D1", state:"DONE", color1:"lightblue", color2:"green", color3:"yellow"},
+                      {activityName:"Set 1", col1:"9:28 D1", col2:"9:17 D1", col3:"9:03 D1", state:"DONE", color1:"lightblue", color2:"green", color3:"yellow" }                      
+                    ];
+           
+           
+function onLoad() {
+	screenContent(1);
+	screenContent(2);
+}
+
+function screenContent(side) {
+	var elementId;
+	
+	if(side ==1) {
+		elementId = 's1tc';	
+	} else if (side ==2) {
+		elementId = 's2tc';
+	}
+	
+	var table = document.getElementById(elementId);
+	table.innerHTML = "";
+	
+	//document.getElementById('screen1').innerHTML = contentArray.length;
+		for(i=contentArray.length-1; i>-1; i--) {
+			var tr = document.createElement("tr");
+			var td = document.createElement("td");
+			var td1 = document.createElement("td");
+			var td2 = document.createElement("td");
+			var txt;
+			var row = contentArray[i];
+			
+					
+			if (typeof(row.col1) != "undefined") {
+				var txt = document.createTextNode(row.activityName+" "+row.col1);
+				td.appendChild(txt);
+				td.style.background = row.color1;
+				tr.appendChild(td);							
+			}
+			
+			if (typeof(row.col2) != "undefined") {
+				var txt = document.createTextNode(row.col2);
+				td1.appendChild(txt);
+				td1.style.background = row.color2;
+				tr.appendChild(td1);				
+			}
+			
+			if (typeof(row.col3) != "undefined") {
+				var txt = document.createTextNode(row.col3);
+				td2.appendChild(txt);
+				td2.style.background = row.color3;
+				tr.appendChild(td2);				
+			}
+			
+			table.appendChild(tr);
+		}	
+}
+
+
+function getCurrentTime() {
+	var currentdate = new Date(); 
+    var hhmm = currentdate.getHours()+":"+currentdate.getMinutes();
+    return hhmm;
+}
+
+function buttonFunction(side,id,activityType) {
+	document.getElementById('screen1').innerHTML = "";
+	var buttonId = id+" ";
+	var log = getCurrentTime()+" D"+side;
+	var activityType = activityType;
+	var activityLog = null;
+	
+	if(side == 1 && plan1 ){		
+		activityLog = {activityName:buttonId, col1:log, color1:'yellow', state:"PLAN"};
+	}else if (side == 2 && plan2 ) {
+		activityLog = {activityName:buttonId, col1:log, color1:'yellow', state:"PLAN"};
+	}else {
+		var planposition = null;
+		//FINDING IS PLAN ALREADY EXISTS
+		for (i=0 ; i<contentArray.length; i++) {
+			var row = contentArray[i];
+			if(row.state == "DONE") continue;
+			if(row.state == "PLAN" && row.activityName == buttonId) {
+				planposition = i; 
+				break;				
+			} 			
+		}
+		
+		//planPOS is captured. if PLAN POS available the row is updated else new activity log created
+		if(activityType == 'W') {
+			//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + " W ";
+			if (planposition !=null) {
+				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos !=nuk"+i;
+				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'green', col2:row.col1, color2:row.color1,state:"WIP"};
+				setTimeout(function(){updateWIPPlanned(planposition,side);}, 6000);
+			} else {
+				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
+				activityLog = {activityName:buttonId, col1:log, color1:'green', state:"WIP"};
+				setTimeout(function(){updateWIP(contentArray.length-1,side);}, 6000);
+			}
+													
+		} else if (activityType == 'D') {			
+			if(planposition !=null) {
+				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'lightblue', col2:row.col1, color2:row.color1,state:"DONE"};
+			} else {
+				activityLog = {activityName:buttonId, col1:log, color1:'lightblue', state:"DONE"};	
+			} 
+									
+		}				
+					
+	}
+	
+	//ON PLAN EXISTS FOR THIS ACTIVITY
+	if(activityLog!=null) {
+		var updatedArray=[activityLog];
+		contentArray = contentArray.concat(updatedArray);				
+	} else {
+		//NO NEW CONTENT. EDIT IS DONE ON THE EXISTING ARRAY
+	}				
+
+	screenContent(side);
+	if(side == 1) {		
+		setTimeout(function(){screenContent(2);}, 3000);		
+	} else if(side ==2) {		
+		setTimeout(function(){screenContent(1);}, 3000);		
+		
+	}
+}
+
+/*function syncInformation() {
+    document.getElementById('screen2').innerHTML = document.getElementById('screen2').innerHTML+"\ntest";
+}
+*/
+
+function updateWIP(i,side) {
+	var log = getCurrentTime()+" D"+side;
+	//document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
+	activityLog = contentArray[i]; 
+	contentArray[i] = {activityName:activityLog.activityName, col1:log, color1:'lightblue', col2:activityLog.col1, color2:activityLog.color1, state:"DONE"};
+	screenContent(1);
+	screenContent(2);
+}
+
+function updateWIPPlanned(i,side) {
+	var log = getCurrentTime()+" D"+side;
+	//document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
+	activityLog = contentArray[i]; 
+	console.log(activityLog)
+	contentArray[i] = {activityName:activityLog.activityName, 
+			col3:activityLog.col2, color3:activityLog.color2,
+			col2:activityLog.col1, color2:activityLog.color1,
+			col1:log, color1:'lightblue', 
+			state:"DONE"};
+	screenContent(1);
+	screenContent(2);
+}
+
+
+
+function planstate(member) {
+	if(member == 1) {
+		if(plan1 == true) {
+			plan1 = false;
+		} else {
+			plan1 = true;
+		}
+		//document.getElementById('screen1').innerHTML = plan1;
+	}
+	if(member == 2) {
+		if(plan2 == true) {
+			plan2 = false;
+		} else {
+			plan2 = true;
+		}
+		//document.getElementById('screen2').innerHTML = plan2;
+	}
+}
+</script>
+<style>
+table.table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */ 
+				background-repeat:no-repeat;				
+				background-size: 300px 600px;
+				padding-left: 15px;
+				
+				}
+				
+table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns.com */ 
+				background-repeat:no-repeat;				
+				background-size: 300px 600px;
+				padding-left: 15px;
+								
+				}
+				
+table, th, td {
+   border: 0px solid black;
+}				
+				
+.button {
+    background-color: #4169E1;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 2px;
+    width: 25%;
+    height:43px;
+}
+
+.planBTN {
+    background-color: #566573;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 2px;
+    cursor: pointer;
+    width: 25%;
+    height:43px;
+}		
+		
+
+
+		
+</style>
+<body onload="onLoad()">
+<table>
+	<tr>
+		<td>
+			<table style="width:300px" class="table1" >
+			<tbody>
+			<tr align="center" height="30">
+				<td >
+					<font color="#fff">Doctor1</font>font>
+				</td>
+			</tr>
+			<tr valign="top" height="350">
+				<td>
+					<p id="screen1"></p>
+					<table id="s1tc">			
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="line.png" alt="Smiley face" width="95%" >
+				</td>				
+			</tr>
+			
+			<tr align="center" valign="top" height="220">
+				<td>		
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 1">
+					Heart Rate</button>
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Get 1">
+					Infusion Pump</button>
+					<button class="planBTN" type="button" onclick="planstate(1)">
+					PLAN</button>
+					
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 2">
+					Temper-ature</button>
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Set 3">
+					Monitor BP</button>
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 4">
+					Sugar Level</button>
+					
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Get 2">
+					Blood Pressure</button>
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Get 3">
+					CT SCAN</button>
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Get 4">
+					Electro
+					cardio</button>
+				</td>
+			</tr>
+			</tbody>
+			</table>		
+		</td>
+		<td width="300">
+		</td>
+		<td>
+			<table style="width:300px" class="table2" >
+			<tbody>
+			<tr>
+				<td align="center" height="30">
+					<font color="#fff">Doctor2</font>			
+				</td>		
+			</tr>
+			<tr height="310" valign="top" >
+				<td>
+					<p id="screen2"></p>
+					<table id="s2tc">
+					</table>		
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="line.png" alt="Smiley face" width="95%">
+				</td>				
+			</tr>
+			<tr align="center" valign="top" height="260">
+				<td>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 1">
+					Heart Rate</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Get 1">
+					Infusion Pump</button>
+					<button class="planBTN" type="button" onclick="planstate(2)">
+					PLAN</button>		
+					
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 2">
+					Temper-ature</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Set 3">
+					Monitor BP</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 4">
+					Sugar Level</button>
+					
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Get 2">
+					Blood Pressure</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Get 3">
+					CT SCAN</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Get 4">
+					Electro
+					cardio</button>
+				</td>		
+			</tr>
+			</tbody>
+			</table>
+		
+		</td>
+	</tr>
+</table>
+
+
+
+
+</body>
+</html> 
