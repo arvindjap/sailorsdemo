@@ -13,15 +13,28 @@ var screenContent1 = [
            */
            
 var contentArray = [
-					  {activityName:"Get 1", col1:"9:15 D2", col2:"9:50 D2", col3:"9:01 D1", state:"DONE", color1:"lightblue", color2:"green", color3:"yellow"},
-                      {activityName:"Set 1", col1:"9:28 D1", col2:"9:17 D1", col3:"9:03 D1", state:"DONE", color1:"lightblue", color2:"green", color3:"yellow" }                      
+					  {activityName:"BarCode", col1:"9:15 D2", col2:"9:50 D2", col3:"9:01 D1", state:"DONE", color1:"lightblue", color2:"#7FFF00", color3:"yellow"},
+                      {activityName:"Pulse", col1:"9:28 D1", col2:"9:17 D1", col3:"9:03 D1", state:"DONE", color1:"lightblue", color2:"#7FFF00", color3:"yellow" }                      
                     ];
            
            
 function onLoad() {
 	screenContent(1);
 	screenContent(2);
+	setInterval(setCurTime, 1000);
 }
+
+function setCurTime() {
+	var currentdate = new Date(); 
+	document.getElementById('curTimeDisplay').innerHTML = currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+}
+
+function getCurrentTime() {
+	var currentdate = new Date(); 
+    var hhmm = currentdate.getHours()+":"+currentdate.getMinutes();
+    return hhmm;
+}
+
 
 function screenContent(side) {
 	var elementId;
@@ -71,11 +84,6 @@ function screenContent(side) {
 }
 
 
-function getCurrentTime() {
-	var currentdate = new Date(); 
-    var hhmm = currentdate.getHours()+":"+currentdate.getMinutes();
-    return hhmm;
-}
 
 function buttonFunction(side,id,activityType) {
 	document.getElementById('screen1').innerHTML = "";
@@ -105,11 +113,11 @@ function buttonFunction(side,id,activityType) {
 			//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + " W ";
 			if (planposition !=null) {
 				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos !=nuk"+i;
-				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'green', col2:row.col1, color2:row.color1,state:"WIP"};
+				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'#7FFF00', col2:row.col1, color2:row.color1,state:"WIP"};
 				setTimeout(function(){updateWIPPlanned(planposition,side);}, 6000);
 			} else {
 				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
-				activityLog = {activityName:buttonId, col1:log, color1:'green', state:"WIP"};
+				activityLog = {activityName:buttonId, col1:log, color1:'#7FFF00', state:"WIP"};
 				setTimeout(function(){updateWIP(contentArray.length-1,side);}, 6000);
 			}
 													
@@ -246,16 +254,46 @@ table, th, td {
 </style>
 <body onload="onLoad()">
 <table>
+	<tr align="center" height="30">
+		<td>
+			Doctor 1
+		</td>
+		<td>
+		</td>
+		<td>
+			Doctor 2
+		</td>
+		
+	</tr>
 	<tr>
 		<td>
 			<table style="width:300px" class="table1" >
 			<tbody>
-			<tr align="center" height="30">
-				<td >
-					<font color="#fff">Doctor1</font>font>
+			
+			<tr>
+				<td>
+				<table>
+					<tr height="45">
+					</tr>
+					<tr valign="bottom" >
+						<td >
+						Alan Joe				
+						</td>	
+						<td width="40">
+						</td>	
+						<td align="right" bgcolor="lightblue">
+						DONE
+						</td>
+						<td align="right" bgcolor="#7FFF00">
+						WIP
+						</td>
+						<td align="right" bgcolor="yellow">
+						PLAN
+						</td>				
+					</tr>
+				</table>
 				</td>
-			</tr>
-			<tr valign="top" height="350">
+			</tr>			<tr valign="top" height="330">
 				<td>
 					<p id="screen1"></p>
 					<table id="s1tc">			
@@ -264,31 +302,31 @@ table, th, td {
 			</tr>
 			<tr>
 				<td>
-					<img src="line.png" alt="Smiley face" width="95%" >
+					<img src="line.png" alt="" width="95%" >
 				</td>				
 			</tr>
 			
 			<tr align="center" valign="top" height="220">
 				<td>		
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 1">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Hrt Rt">
 					Heart Rate</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Get 1">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Inf Pmp">
 					Infusion Pump</button>
 					<button class="planBTN" type="button" onclick="planstate(1)">
 					PLAN</button>
 					
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 2">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Tempe">
 					Temper-ature</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Set 3">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Mont BP">
 					Monitor BP</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Set 4">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Sug Lvl">
 					Sugar Level</button>
 					
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Get 2">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Bld Pr">
 					Blood Pressure</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Get 3">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="CT Scan">
 					CT SCAN</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Get 4">
+					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Elec Ca">
 					Electro
 					cardio</button>
 				</td>
@@ -296,17 +334,38 @@ table, th, td {
 			</tbody>
 			</table>		
 		</td>
-		<td width="300">
+		<td width="300" align="center">
+			<p>Time Now</p>
+			<font size="40"><p id="curTimeDisplay"></p></font>			
 		</td>
 		<td>
 			<table style="width:300px" class="table2" >
 			<tbody>
 			<tr>
-				<td align="center" height="30">
-					<font color="#fff">Doctor2</font>			
-				</td>		
+				<td>
+				<table>
+					<tr height="45">
+					</tr>
+					<tr valign="bottom" >
+						<td >
+						Alan Joe				
+						</td>	
+						<td width="40">
+						</td>	
+						<td align="right" bgcolor="lightblue">
+						DONE
+						</td>
+						<td align="right" bgcolor="#7FFF00">
+						WIP
+						</td>
+						<td align="right" bgcolor="yellow">
+						PLAN
+						</td>				
+					</tr>
+				</table>
+				</td>
 			</tr>
-			<tr height="310" valign="top" >
+			<tr height="290" valign="top" >
 				<td>
 					<p id="screen2"></p>
 					<table id="s2tc">
@@ -315,30 +374,30 @@ table, th, td {
 			</tr>
 			<tr>
 				<td>
-					<img src="line.png" alt="Smiley face" width="95%">
+					<img src="line.png" alt="" width="95%">
 				</td>				
 			</tr>
 			<tr align="center" valign="top" height="260">
 				<td>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 1">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Heart Rate">
 					Heart Rate</button>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Get 1">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Infus Pump">
 					Infusion Pump</button>
 					<button class="planBTN" type="button" onclick="planstate(2)">
 					PLAN</button>		
 					
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 2">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Temperatur">
 					Temper-ature</button>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Set 3">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Monitor BP">
 					Monitor BP</button>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Set 4">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Sugar Lvl">
 					Sugar Level</button>
 					
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Get 2">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Blood prs">
 					Blood Pressure</button>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Get 3">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="CT Scan">
 					CT SCAN</button>
-					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Get 4">
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Electro Ca">
 					Electro
 					cardio</button>
 				</td>		
