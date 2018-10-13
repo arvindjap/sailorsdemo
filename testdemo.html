@@ -67,8 +67,14 @@ var contentArray = [
 
 function onLoad() {
 	screenContent(1);
+	screenContent(2);
+	setInterval(setCurTime, 1000);
 }
 
+function setCurTime() {
+	var currentdate = new Date();
+	document.getElementById('curTimeDisplay').innerHTML = currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
+}
 
 function getCurrentTime() {
 	var currentdate = new Date();
@@ -215,6 +221,7 @@ function updateWIPPlanned(i,side) {
 			col1:log, color1:'lightblue',
 			state:"DONE"};
 	screenContent(1);
+	screenContent(2);
 }
 
 
@@ -239,7 +246,7 @@ function planstate(member) {
 }
 </script>
 <style>
-table .table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */
+table.table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */
 				background-repeat:no-repeat;
 				background-size: 300px 600px;
 				padding-left: 15px;
@@ -293,22 +300,15 @@ table, th, td {
 
 </style>
 <body onload="onLoad()">
-  <center>
-  <form>
-    Add Skill:
-    <select>
-    <option value="ECG" selected> ECG </option>
-    <option value="MBP" > Monitor BP </option>
-    <option value="Inf"> Infusion pump </option>
-    <option value="Tony"> Tonymeter</option>
-    </select>
-    <input type="submit" value="ADD SKILL" />
-  </form>
-
-
 <table>
 	<tr align="center" height="30">
 		<td>
+			Doctor 1
+		</td>
+		<td>
+		</td>
+		<td>
+			Doctor 2
 		</td>
 
 	</tr>
@@ -358,7 +358,7 @@ table, th, td {
 					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Hrt Rt">
 					Heart Rate</button>
 					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Inf Pmp">
-					Infusion Pump</button>
+					<Infusion Pump</button>
 					<!--
 					<div class="onoffswitch">
    					 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
@@ -389,6 +389,78 @@ table, th, td {
 			</tr>
 			</tbody>
 			</table>
+		</td>
+		<td width="300" align="center">
+			<p>Time Now</p>
+			<font size="40"><p id="curTimeDisplay"></p></font>
+		</td>
+		<td>
+			<table style="width:300px" class="table2" >
+			<tbody>
+			<tr>
+				<td>
+				<table>
+					<tr height="45">
+					</tr>
+					<tr valign="bottom" >
+						<td >
+						Alan Joe
+						</td>
+						<td width="40">
+						</td>
+						<td align="right" bgcolor="lightblue">
+						DONE
+						</td>
+						<td align="right" bgcolor="#7FFF00">
+						WIP
+						</td>
+						<td align="right" bgcolor="yellow">
+						PLAN
+						</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr height="290" valign="top" >
+				<td>
+					<p id="screen2"></p>
+					<table id="s2tc">
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="line.png" alt="" width="95%">
+				</td>
+			</tr>
+			<tr align="center" valign="top" height="260">
+				<td>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Heart Rate">
+					Heart Rate</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Infus Pump">
+					Infusion Pump</button>
+					<button class="planBTN" type="button" onclick="planstate(2)">
+					PLAN</button>
+
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Temperatur">
+					Temper-ature</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="Monitor BP">
+					Monitor BP</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Sugar Lvl">
+					Sugar Level</button>
+
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Blood prs">
+					Blood Pressure</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'D')" id="CT Scan">
+					CT SCAN</button>
+					<button class="button" type="button" onclick="buttonFunction(2,this.id,'W')" id="Electro Ca">
+					Electro
+					cardio</button>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+
 		</td>
 	</tr>
 </table>
