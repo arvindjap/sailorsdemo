@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Demo</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<style type="text/css">
+table.table1{
+  background: url("iphone.png");
+  background-repeat: no-repeat;
+  padding: 25% 15%;
+
+}
+tr{
+
+
+}
+.container{
+
+}
+#tableid{
+
+
+}
+</style>
+<body>
+<br/>
+<div class="container">
+
+  <form>
+    Add Skill:
+    <select id="options">
+    <option value="ECG" selected> ECG </option>
+    <option value="MBP" > Monitor BP </option>
+    <option value="Inf"> Infusion pump </option>
+    <option value="Tony"> Tonymeter</option>
+    </select>
+    <button onclick="createSkill()" type="button" class="button"> ADD SKILL</button>
+  </form>
+
+  <center>
+
+  <table class="table1" id="table1" height="500px">
+
+  </table>
+  <script type="text/javascript">
+  function createSkill(){
+    var opt = document.getElementById("options");
+
+    var sel= opt.value;
+    var table= document.getElementById("table1");
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    var btn = document.createElement("button");
+    btn.type="button";
+    btn.setAttribute('onclick', sel+"();");
+    var txt = document.createTextNode(sel);
+    btn.appendChild(txt);
+    td.appendChild(btn);
+    tr.appendChild(td);
+    table.appendChild(tr);
+
+    //removing the added skill from list
+    /*var len = opt.options.length;
+    var i=0;
+    for(i=0;i<len;i++){
+      if(opt.options[i].value == sel)
+      break;
+    }
+    opt.removeChild(opt.childNodes[i]);*/
+  }
+  function MBP(){
+    var txt = document.createTextNode("hi MBP!!");
+    document.getElementById("id1").appendChild(txt);
+  }
+  function Tony(){
+    var txt = document.createTextNode("hi Tony!!");
+    document.getElementById("id1").appendChild(txt);
+  }
+  function Inf(){
+    var txt = document.createTextNode("hi Infusion Pump");
+    document.getElementById("id1").appendChild(txt);
+  }
+  function ECG(){
+    var txt = document.createTextNode("hi ECG");
+    document.getElementById("id1").appendChild(txt);
+  }
+  </script>
+  <div id="id1">
+  </div>
+</div>
+</body>
+</html>

@@ -67,14 +67,8 @@ var contentArray = [
 
 function onLoad() {
 	screenContent(1);
-
-	setInterval(setCurTime, 1000);
 }
 
-function setCurTime() {
-	var currentdate = new Date();
-	document.getElementById('curTimeDisplay').innerHTML = currentdate.getHours()+":"+currentdate.getMinutes()+":"+currentdate.getSeconds();
-}
 
 function getCurrentTime() {
 	var currentdate = new Date();
@@ -221,7 +215,6 @@ function updateWIPPlanned(i,side) {
 			col1:log, color1:'lightblue',
 			state:"DONE"};
 	screenContent(1);
-	screenContent(2);
 }
 
 
@@ -246,7 +239,7 @@ function planstate(member) {
 }
 </script>
 <style>
-table.table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */
+table .table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */
 				background-repeat:no-repeat;
 				background-size: 300px 600px;
 				padding-left: 15px;
@@ -304,10 +297,10 @@ table, th, td {
   <form>
     Add Skill:
     <select>
-    <option value="ECG" > ECG </option>
-    <option value="ECG" selected> Monitor BP </option>
-    <option value="ECG"> Infusion pump </option>
-    <option value="ECG"> </option>
+    <option value="ECG" selected> ECG </option>
+    <option value="MBP" > Monitor BP </option>
+    <option value="Inf"> Infusion pump </option>
+    <option value="Tony"> Tonymeter</option>
     </select>
     <input type="submit" value="ADD SKILL" />
   </form>
@@ -315,9 +308,6 @@ table, th, td {
 
 <table>
 	<tr align="center" height="30">
-		<td>
-			Doctor 1
-		</td>
 		<td>
 		</td>
 
@@ -368,7 +358,7 @@ table, th, td {
 					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Hrt Rt">
 					Heart Rate</button>
 					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Inf Pmp">
-					<Infusion Pump</button>
+					Infusion Pump</button>
 					<!--
 					<div class="onoffswitch">
    					 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
@@ -399,10 +389,6 @@ table, th, td {
 			</tr>
 			</tbody>
 			</table>
-		</td>
-		<td width="300" align="center">
-			<p>Time Now</p>
-			<font size="40"><p id="curTimeDisplay"></p></font>
 		</td>
 	</tr>
 </table>
