@@ -247,18 +247,28 @@ function createSkill(sel){
     document.getElementById("tr1").style.display="block";
     document.getElementById("tr2").style.display="none";
     document.getElementById("tr3").style.display="none";
+    document.getElementById("tr4").style.display="none";
   }
   else if(sel==2){
 
     document.getElementById("tr1").style.display="none";
     document.getElementById("tr2").style.display="block";
     document.getElementById("tr3").style.display="none";
+    document.getElementById("tr4").style.display="none";
   }
   else if(sel==3){
 
     document.getElementById("tr1").style.display="none";
     document.getElementById("tr2").style.display="none";
     document.getElementById("tr3").style.display="block";
+    document.getElementById("tr4").style.display="none";
+  }
+  else if(sel==4){
+
+    document.getElementById("tr1").style.display="none";
+    document.getElementById("tr2").style.display="none";
+    document.getElementById("tr3").style.display="none";
+    document.getElementById("tr4").style.display="block";
   }
   else{
 
@@ -375,7 +385,8 @@ table, th, td {
       <tr>
         <td><button type="button" value="Vitals" onclick="createSkill(1)">Vitals</button>
         <button type="button" value="Medication" onclick="createSkill(2)">Medication</button>
-        <button type="button" value="Imaging" onclick="createSkill(3)">Imaging</button> </td>
+        <button type="button" value="Imaging" onclick="createSkill(3)">Imaging</button>
+        <button type="button" value="EHR" onclick="createSkill(4)">EHR</button> </td>
 
       </tr>
 			<tr>
@@ -455,7 +466,26 @@ table, th, td {
 				</td>
 			</tr>
 
+      <tr align="center" valign="top" height="220" id="tr4">
+        <td>
 
+          <!--
+          <div class="onoffswitch">
+             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+               <label class="onoffswitch-label" for="myonoffswitch">
+           <span class="onoffswitch-inner"></span>
+                 <span class="onoffswitch-switch"></span>
+               </label>
+          </div>
+          -->
+
+
+          <button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Last Chart">
+          Last Chart</button>
+          <button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Save Chart">
+          Save Chart</button>
+        </td>
+      </tr>
 			</tbody>
 			</table>
 		</td>
