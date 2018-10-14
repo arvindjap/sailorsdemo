@@ -69,7 +69,7 @@ function onLoad() {
 	screenContent(1);
    document.getElementById("tr2").style.display="none";
    document.getElementById("tr3").style.display="none";
-   document.getElementById("textbox").value="1";
+   document.getElementById("tr4").style.display="none";
 }
 
 
@@ -299,14 +299,14 @@ table, th, td {
     border-radius: 8px;
     border: none;
     color: white;
-    padding: 10px 18px;
+    padding: 10px 0px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
     margin: 2px 2px;
-    width: 25%;
-    height:43px;
+    width: 90px;
+    height:40px;
 }
 
 .planBTN {
@@ -380,11 +380,11 @@ table, th, td {
       <tr>
         <td>
       <img src="line.png" alt="" width="95%" ><br>
-      Select Servant
+      &nbsp Select Servant
     </td>
       <tr>
       <tr>
-        <td><button type="button" value="Vitals" onclick="createSkill(1)">Vitals</button>
+        <td>&nbsp<button type="button" value="Vitals" onclick="createSkill(1)">Vitals</button>
         <button type="button" value="Medication" onclick="createSkill(2)">Medication</button>
         <button type="button" value="Imaging" onclick="createSkill(3)">Imaging</button>
         <button type="button" value="EHR" onclick="createSkill(4)">EHR</button> </td>
@@ -393,7 +393,7 @@ table, th, td {
 			<tr>
 				<td>
 					<img src="line.png" alt="" width="95%" >
-          Use Skill(s)
+          &nbsp &nbspUse Skill(s)
 				</td>
 			</tr>
 
@@ -466,7 +466,7 @@ table, th, td {
 					ECG</button>
 				</td>
 			</tr>
-
+<!--table 4  -->
       <tr align="center" valign="top" height="220" id="tr4">
         <td>
 
