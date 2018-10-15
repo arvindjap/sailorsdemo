@@ -162,8 +162,8 @@ function buttonFunction(side,id,activityType) {
 			} else {
 				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
 				activityLog = {activityName:buttonId, col1:log, color1:'#7FFF00', state:"WIP"};
-				var wipPos = contentArray.length-1;
-				document.getElementById('screen1').innerHTML = "BEfore SetTimeOut"+wipPos;
+				var wipPos = contentArray.length;
+				//document.getElementById('screen1').innerHTML = "BEfore SetTimeOut"+wipPos;
 				setTimeout(function(){updateWIP(wipPos,side);}, 6000);
 			}
 
