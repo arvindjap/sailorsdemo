@@ -162,7 +162,8 @@ function buttonFunction(side,id,activityType) {
 			} else {
 				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
 				activityLog = {activityName:buttonId, col1:log, color1:'#7FFF00', state:"WIP"};
-				setTimeout(function(){updateWIP(contentArray.length-1,side);}, 6000);
+				var wipPos = contentArray.length-1;
+				setTimeout(function(){updateWIP(wipPos,side);}, 6000);
 			}
 
 		} else if (activityType == 'D') {
