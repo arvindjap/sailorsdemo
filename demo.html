@@ -163,6 +163,7 @@ function buttonFunction(side,id,activityType) {
 				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
 				activityLog = {activityName:buttonId, col1:log, color1:'#7FFF00', state:"WIP"};
 				var wipPos = contentArray.length-1;
+				document.getElementById('screen1').innerHTML = "BEfore SetTimeOut"+wipPos;
 				setTimeout(function(){updateWIP(wipPos,side);}, 6000);
 			}
 
@@ -201,7 +202,6 @@ function buttonFunction(side,id,activityType) {
 
 function updateWIP(i,side) {
 	var log = getCurrentTime()+" D"+side;
-	document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
 	activityLog = contentArray[i];
 	contentArray[i] = {activityName:activityLog.activityName, col1:log, color1:'lightblue', col2:activityLog.col1, color2:activityLog.color1, state:"DONE"};
 	screenContent(1);
