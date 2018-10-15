@@ -133,7 +133,9 @@ function buttonFunction(side,id,activityType) {
 	document.getElementById('screen1').innerHTML = "";
 	var buttonId = id+" ";
 	var log = getCurrentTime()+" D"+side;
-	var activityType = activityType;
+	//FOR REMOVING WIP AND HAVING ONLY DONE STATE.THE ACTIVITYTYPE IS CHANGED TO 'D' FOR ALL CASES. MINIMUL CODE CHANGE
+	//var activityType = activityType;
+	var activityType = 'D';
 	var activityLog = null;
 
 	if(side == 1 && plan1 ){
@@ -361,9 +363,11 @@ table, th, td {
 						<td align="right" bgcolor="lightblue">
 						DONE
 						</td>
+						<!--
 						<td align="right" bgcolor="#7FFF00">
 						WIP
 						</td>
+						-->
 						<td align="right" bgcolor="yellow">
 						PLAN
 						</td>
