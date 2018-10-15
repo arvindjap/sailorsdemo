@@ -200,7 +200,7 @@ function buttonFunction(side,id,activityType) {
 
 function updateWIP(i,side) {
 	var log = getCurrentTime()+" D"+side;
-	//document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
+	document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
 	activityLog = contentArray[i];
 	contentArray[i] = {activityName:activityLog.activityName, col1:log, color1:'lightblue', col2:activityLog.col1, color2:activityLog.color1, state:"DONE"};
 	screenContent(1);
