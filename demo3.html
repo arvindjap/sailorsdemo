@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  table.main{
+    background-image: url("iphone.png");
+    background-repeat:no-repeat;
+    background-size: 300px 600px;
+    padding-left: 15px;
+    }
+  table .servantList{
+    padding-bottom: 450px;
+
+  }
+  table, th, td {
+     border: 1px solid black;
+  }
+  table .servantList{
+  }
+  </style>
+  <script type="text/javascript">
+  function showSkill(skillValue){
+    var table=document.getElementById("servants");
+    var tr=document.createElement("tr");
+    var td=document.createElement("td");
+    var btn=document.createElement("button");
+    btn.type="button";
+    var btn1=document.createElement("button");
+    btn1.type="button";
+    var btn2=document.createElement("button");
+    btn2.type="button";
+
+    if(skillValue==1){
+      var txt =document.createTextNode("Heart Rate");
+      btn.appendChild(txt);
+      btn.setAttribute('onclick', "HrtRt();");
+
+      txt=document.createTextNode("Blood pressure");
+      btn1.appendChild(txt);
+      btn1.setAttribute('onclick', "Bp();");
+
+
+      txt=document.createTextNode("Temperature");
+      btn2.appendChild(txt);
+      btn2.setAttribute('onclick', "Temp();");
+
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      td.appendChild(btn2);
+      tr.appendChild(td);
+      table.appendChild(tr);
+
+    }
+    else if(skillValue==2){
+
+    }
+    else if(skillValue==3){
+
+    }
+    else if(skillValue==4){
+
+    }
+    else{
+
+    }
+  }
+  </script>
+</head>
+<body>
+<center>
+  <table class="main" style="width:300px; height:600px;" >
+
+    <tr >
+      <td valign="top">
+
+      <div id="servantList" style="margin:40px 0px 10px 0px;">
+        &nbsp Select Servant<br/>
+        &nbsp   <button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
+        <button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
+        <button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
+        <button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
+        <img src="line.png" alt="" width="95%" >
+      </div>
+      <table id="servants" style="width:300px;">
+
+      </table>
+    </td>
+    </tr>
+
+  </table>
+</center>
+</body>
+</html>
