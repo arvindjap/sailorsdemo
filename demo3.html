@@ -33,16 +33,20 @@
     if(skillValue==1){
       var txt =document.createTextNode("Heart Rate");
       btn.appendChild(txt);
-      btn.setAttribute('onclick', "HrtRt();");
+      btn.style.padding = "0px";
+      //btn.setAttribute('onclick', "HrtRt();");
 
       txt=document.createTextNode("Blood pressure");
       btn1.appendChild(txt);
-      btn1.setAttribute('onclick', "Bp();");
+      btn1.style.padding = "0px";
+      btn1.style.margin = "0px 5px";
+      //btn1.setAttribute('onclick', "Bp();");
 
 
       txt=document.createTextNode("Temperature");
       btn2.appendChild(txt);
-      btn2.setAttribute('onclick', "Temp();");
+      btn2.style.padding = "0px";
+      //btn2.setAttribute('onclick', "Temp();");
 
 
       td.appendChild(btn);
@@ -53,12 +57,51 @@
 
     }
     else if(skillValue==2){
+      var txt =document.createTextNode("Infusion Pump");
+      btn.appendChild(txt);
+      //btn.setAttribute('onclick', "Inf();");
+
+      txt=document.createTextNode("Blood Glucose");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      //btn1.setAttribute('onclick', "Gul();");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      table.appendChild(tr);
 
     }
     else if(skillValue==3){
+      var txt =document.createTextNode("CT Scan");
+      btn.appendChild(txt);
+      //btn.setAttribute('onclick', "();");
+
+      txt=document.createTextNode("ECG");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      //btn1.setAttribute('onclick', "Bp();");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      table.appendChild(tr);
 
     }
     else if(skillValue==4){
+      var txt =document.createTextNode("Last Chart");
+      btn.appendChild(txt);
+      //btn.setAttribute('onclick', "HrtRt();");
+
+      txt=document.createTextNode("Save Chart");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      //btn1.setAttribute('onclick', "Bp();");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      table.appendChild(tr);
 
     }
     else{
@@ -75,14 +118,16 @@
       <td valign="top">
 
       <div id="servantList" style="margin:40px 0px 10px 0px;">
-        &nbsp Select Servant<br/>
+      &nbsp Patient Name: Alan <br/>
+      <img src="line.png" alt="" width="95%"/><br />
+        &nbsp Select Servant<br/><br>
         &nbsp   <button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
         <button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
         <button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
         <button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
         <img src="line.png" alt="" width="95%" >
       </div>
-      <table id="servants" style="width:300px;">
+      <table id="servants">
 
       </table>
     </td>
