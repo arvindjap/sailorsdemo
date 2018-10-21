@@ -141,15 +141,21 @@
 
     var tr = document.createElement("tr");
     var td = document.createElement("td");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
 
     if(side == 1){
     var table = document.getElementById(contentArray[contentArray.length-1].activityTable);
+
     var txt = document.createTextNode(contentArray[contentArray.length-1].activityName);
+    td.style.textAlign = "right";
+    tr.style.valign ="bottom";
     td.appendChild(txt);
+
     tr.appendChild(td);
     table.appendChild(tr);
     if(contentArray[contentArray.length-1].activityName == "HrtRt"){
-      contentResponse[contentResponse.length] = {activityTable: 'Vitals' ,activityName: '90bpm' };
+      contentResponse[contentResponse.length] = {activityTable: contentArray[contentArray.length-1].activityTable ,activityName: '90bpm' };
     }
     await sleep(3000);
     screenContent(2);
@@ -171,12 +177,12 @@
 <center>
   <table class="main" style="width:300px; height:600px;" >
 
-    <tr >
-      <td valign="top">
+    <tr valign="top">
+      <td >
 
       <div id="servantList" style="margin:40px 0px 10px 0px;">
       &nbsp Patient Name: Alan <br/>
-      <img src="line.png" alt="" width="95%"/><br />
+      <img src="line.png" alt="" width="95%" /><br />
         &nbsp Select Servant<br/><br>
         &nbsp   <button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
         <button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
