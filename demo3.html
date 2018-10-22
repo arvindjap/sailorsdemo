@@ -40,15 +40,15 @@
       btn1.appendChild(txt);
       btn1.style.padding = "0px";
       btn1.style.margin = "0px 5px";
-      btn1.id="Blood Pressure";
-      btn1.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,'D','G');");
+      btn1.id="BloodPressure";
+      btn1.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
 
 
       txt=document.createTextNode("Temperature");
       btn2.appendChild(txt);
       btn2.style.padding = "0px";
       btn2.id="Temperature";
-      btn2.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,D,G);");
+      btn2.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
 
 
       td.appendChild(btn);
@@ -65,13 +65,13 @@
 
       btn.appendChild(txt);
       btn.id="Inf";
-      btn.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,W,S)");
+      btn.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S)");
 
       txt=document.createTextNode("Blood Glucose");
       btn1.appendChild(txt);
       btn1.style.margin = "0px 5px";
       btn1.id="Gul";
-      btn1.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,W,S);");
+      btn1.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S);");
 
       td.appendChild(btn);
       td.appendChild(btn1);
@@ -85,13 +85,13 @@
       var txt =document.createTextNode("CT Scan");
       btn.appendChild(txt);
       btn.id="Ct";
-      btn.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,D,G);");
+      btn.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
 
       txt=document.createTextNode("ECG");
       btn1.appendChild(txt);
       btn1.style.margin = "0px 5px";
       btn1.id="Ecg";
-      btn1.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,W,G);");
+      btn1.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
 
       td.appendChild(btn);
       td.appendChild(btn1);
@@ -105,13 +105,13 @@
       var txt =document.createTextNode("Last Chart");
       btn.appendChild(txt);
       btn.id="lastChart";
-      btn.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,W,G);");
+      btn.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
 
       txt=document.createTextNode("Save Chart");
       btn1.appendChild(txt);
       btn1.style.margin = "0px 5px";
       btn1.id="saveChart";
-      btn1.setAttribute('onclick', "buttonFunction(innerTable.id,this.id,W,G);");
+      btn1.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
 
       td.appendChild(btn);
       td.appendChild(btn1);
@@ -128,16 +128,30 @@
    var contentArray = [];
    var contentResponse = [];
 
-  function buttonFunction(servant, skill, activityType, getSet){
 
+  function buttonFunction(servant, skill, activityType, getSet){
+     var planPOS =0;
     if(getSet =='G'){
       if(activityType=='W'){
-        contentArray[contentArray.length] = {activityTable: servant, activityName: skill, color1: "Yellow", col3:"true"};
-        screenContent(1);
+
+          contentArray[contentArray.length] = {activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
+        for(i=0;i<=contentArray.length-1;i++){
+          var row = contentArray[i];
+          if(row.state == "DONE")
+          continue;
+          else {
+            planPOS = i;
+          }
+
+          screenContent(1,planPOS);
+          row.state = "DONE";
+        }
+
+
       }
     }
   }
-  async function screenContent(side){
+  async function screenContent(side,planposition){
 
     var tr = document.createElement("tr");
     var td = document.createElement("td");
@@ -145,24 +159,33 @@
     var td2 = document.createElement("td");
 
     if(side == 1){
-    var table = document.getElementById(contentArray[contentArray.length-1].activityTable);
+    var table = document.getElementById(contentArray[planposition].activityTable);
 
-    var txt = document.createTextNode(contentArray[contentArray.length-1].activityName);
+    var txt = document.createTextNode(contentArray[planposition].activityName);
     td.style.textAlign = "right";
-    tr.style.valign ="bottom";
     td.appendChild(txt);
 
     tr.appendChild(td);
     table.appendChild(tr);
-    if(contentArray[contentArray.length-1].activityName == "HrtRt"){
-      contentResponse[contentResponse.length] = {activityTable: contentArray[contentArray.length-1].activityTable ,activityName: '90bpm' };
+
+    if(contentArray[planposition].activityName == "HrtRt"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'HrtRt: 90bpm' };
     }
+    else if(contentArray[planposition].activityName == "BloodPressure"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'BP: 120/80' };
+    }
+    else if(contentArray[planposition].activityName == "Temperature"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Temp: 98.3º F/ 36.8º C' };
+    }
+    
+
     await sleep(3000);
-    screenContent(2);
+    screenContent(2, planposition);
+
     }
     if(side==2){
-      var table = document.getElementById(contentResponse[contentResponse.length-1].activityTable);
-      var txt= document.createTextNode(contentResponse[contentResponse.length-1].activityName);
+      var table = document.getElementById(contentResponse[planposition].activityTable);
+      var txt= document.createTextNode(contentResponse[planposition].activityName);
       td.appendChild(txt);
       tr.appendChild(td);
       table.appendChild(tr);
