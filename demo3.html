@@ -9,7 +9,7 @@
     padding-left: 15px;
     }
   table, th, td {
-     border: 1px solid black;
+     border: 0px solid black;
   }
 
   </style>
@@ -17,9 +17,14 @@
   var exist =["false", "false", "false", "false", "false"];
   function showSkill(skillValue){
     var table=document.getElementById("servants");
+    table.style.width="267px";
     var innerTable=document.createElement("table");
+    innerTable.style.width="261px";
+    innerTable.style.border="1px solid black";
     var tr=document.createElement("tr");
+
     var td=document.createElement("td");
+//    td.style.border="1px solid black";
     var btn=document.createElement("button");
     btn.type="button";
     var btn1=document.createElement("button");
@@ -65,13 +70,13 @@
 
       btn.appendChild(txt);
       btn.id="Inf";
-      btn.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S)");
+      btn.setAttribute('onclick', "buttonFunction('Medication',this.id,'W','S')");
 
       txt=document.createTextNode("Blood Glucose");
       btn1.appendChild(txt);
       btn1.style.margin = "0px 5px";
       btn1.id="Gul";
-      btn1.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S);");
+      btn1.setAttribute('onclick', "buttonFunction('Medication',this.id,'W','S');");
 
       td.appendChild(btn);
       td.appendChild(btn1);
@@ -127,12 +132,12 @@
 
    var contentArray = [];
    var contentResponse = [];
+   var contentSetArray =[];
 
 
-  function buttonFunction(servant, skill, activityType, getSet){
+  async function buttonFunction(servant, skill, activityType, getSet){
      var planPOS =0;
     if(getSet =='G'){
-      if(activityType=='W'){
 
           contentArray[contentArray.length] = {activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
         for(i=0;i<=contentArray.length-1;i++){
@@ -142,21 +147,25 @@
           else {
             planPOS = i;
           }
-
           screenContent(1,planPOS);
+
           row.state = "DONE";
+
         }
 
-
-      }
     }
+    else if(getSet == 'S'){
+      contentSetArray[contentSetArray.length] ={activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
+
+      screenContent(3,0);
+    }
+
   }
   async function screenContent(side,planposition){
 
     var tr = document.createElement("tr");
     var td = document.createElement("td");
-    var td1 = document.createElement("td");
-    var td2 = document.createElement("td");
+  //  td.style.border="1px solid black";
 
     if(side == 1){
     var table = document.getElementById(contentArray[planposition].activityTable);
@@ -177,19 +186,83 @@
     else if(contentArray[planposition].activityName == "Temperature"){
       contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Temp: 98.3º F/ 36.8º C' };
     }
-    
+
+    else if(contentArray[planposition].activityName == "Ct"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'CT taken' };
+    }
+    else if(contentArray[planposition].activityName == "Ecg"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Ecg Taken' };
+    }
+    else if(contentArray[planposition].activityName == "saveChart"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'saved' };
+    }
+    else if(contentArray[planposition].activityName == "lastChart"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'last Chart' };
+    }
+    else {
+
+    }
 
     await sleep(3000);
     screenContent(2, planposition);
 
     }
-    if(side==2){
+    else if(side==2){
       var table = document.getElementById(contentResponse[planposition].activityTable);
       var txt= document.createTextNode(contentResponse[planposition].activityName);
       td.appendChild(txt);
       tr.appendChild(td);
       table.appendChild(tr);
+
     }
+    else if(side==3){
+      var table = document.getElementById(contentSetArray[contentSetArray.length-1].activityTable);
+      var td1=document.createElement("td");
+      var tr1=document.createElement("tr");
+      var txt =document.createTextNode(contentSetArray[contentSetArray.length-1].activityName);
+
+      td1.style.textAlign ="right";
+      td1.appendChild(txt);
+      tr1.appendChild(td1);
+      table.appendChild(tr1);
+      await sleep(400);
+      var setValueBox = document.createElement("input");
+      setValueBox.type = "number";
+      setValueBox.id= contentSetArray[contentSetArray.length-1].activityName + contentSetArray.length;
+      var btn=document.createElement("input");
+      btn.type="button";
+      btn.name=setValueBox.id;
+      btn.class = contentSetArray[contentSetArray.length-1].activityTable;
+      btn.id= contentSetArray[contentSetArray.length-1].activityName;
+      btn.setAttribute('onclick',"screenForSetReply(this.id, this.class,this.name);");
+
+      btn.value="set " + contentSetArray[contentSetArray.length-1].activityName;
+      td.appendChild(setValueBox);
+
+      td.appendChild(btn);
+      tr.appendChild(td);
+      table.appendChild(tr);
+    }
+
+  }
+  function screenForSetReply(btnid, tableid, txtid){
+    var table = document.getElementById(tableid);
+    var txt;
+
+    if(btnid =="Gul"){
+       txt = "Gul set as " +document.getElementById(txtid).value ;
+
+    }
+    else if(btnid=="Inf"){
+       txt ="Inf set as "+document.getElementById(txtid).value;
+    }
+    var txt1 =document.createTextNode(txt);
+    var td=document.createElement("td");
+    var tr=document.createElement("tr");
+    td.appendChild(txt1);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    document.getElementById(txtid).value = "";
   }
   function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
