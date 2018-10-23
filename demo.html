@@ -1,503 +1,298 @@
 <!DOCTYPE html>
 <html>
-
-<style>
-.onoffswitch {
-    position: relative; width: 90px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #FCFDFF; border-radius: 20px;
-}
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "PLAN";
-    padding-left: 10px;
-    background-color: #F3FF0F; color: #000000;
-}
-.onoffswitch-inner:after {
-    content: "LOG";
-    padding-right: 10px;
-    background-color: #3CFF00; color: #000000;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block; width: 18px; margin: 6px;
-    background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
-    right: 56px;
-    border: 2px solid #FCFDFF; border-radius: 20px;
-    transition: all 0.3s ease-in 0s;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px;
-}
-</style>
-
-<script>
-var plan1 = false;
-var plan2 = false;
-/*
-var screenContent1 = [
-             ["Set1 9:28 D1", "9:17 D1", "9:03 D1"],
-             ["Get1 9:15 D2", "9:50 D2", "9:01 D1"]
-           ];
-           */
-
-var contentArray = [
-					  {activityName:"BarCode", col1:"9:15 D2", col2:"9:50 D2", col3:"", state:"DONE", color1:"lightblue", color2:"#7FFF00", color3:"yellow"},
-                      {activityName:"Pulse", col1:"9:28 D1", col2:"9:17 D1", col3:"", state:"DONE", color1:"lightblue", color2:"#7FFF00", color3:"yellow" }
-                    ];
-
-
-function onLoad() {
-	screenContent(1);
-   document.getElementById("tr2").style.display="none";
-   document.getElementById("tr3").style.display="none";
-   document.getElementById("tr4").style.display="none";
-}
-
-
-function getCurrentTime() {
-	var currentdate = new Date();
-    var hhmm = currentdate.getHours()+":"+currentdate.getMinutes();
-    return hhmm;
-}
-
-
-function screenContent(side) {
-	var elementId;
-
-	if(side ==1) {
-		elementId = 's1tc';
-	} else if (side ==2) {
-		elementId = 's2tc';
-	}
-
-	var table = document.getElementById(elementId);
-	table.innerHTML = "";
-
-	//document.getElementById('screen1').innerHTML = contentArray.length;
-		for(i=contentArray.length-1; i>-1; i--) {
-			var tr = document.createElement("tr");
-			var td = document.createElement("td");
-			var td1 = document.createElement("td");
-			var td2 = document.createElement("td");
-			var txt;
-			var row = contentArray[i];
-
-
-			if (typeof(row.col1) != "undefined") {
-				var txt = document.createTextNode(row.activityName+" "+row.col1);
-				td.appendChild(txt);
-				td.style.background = row.color1;
-				tr.appendChild(td);
-			}
-
-			if (typeof(row.col2) != "undefined") {
-				var txt = document.createTextNode(row.col2);
-				td1.appendChild(txt);
-				td1.style.background = row.color2;
-				tr.appendChild(td1);
-			}
-
-			if (typeof(row.col3) != "undefined") {
-				var txt = document.createTextNode(row.col3);
-				td2.appendChild(txt);
-				td2.style.background = row.color3;
-				tr.appendChild(td2);
-			}
-
-			table.appendChild(tr);
-		}
-}
-
-
-
-function buttonFunction(side,id,activityType) {
-	document.getElementById('screen1').innerHTML = "";
-	var buttonId = id+" ";
-	var log = getCurrentTime()+" D"+side;
-	var activityType = activityType;
-	var activityLog = null;
-
-	if(side == 1 && plan1 ){
-		activityLog = {activityName:buttonId, col1:log, color1:'yellow', state:"PLAN"};
-	}else if (side == 2 && plan2 ) {
-		activityLog = {activityName:buttonId, col1:log, color1:'yellow', state:"PLAN"};
-	}else {
-		var planposition = null;
-		//FINDING IS PLAN ALREADY EXISTS
-		for (i=0 ; i<contentArray.length; i++) {
-			var row = contentArray[i];
-			if(row.state == "DONE") continue;
-			if(row.state == "PLAN" && row.activityName == buttonId) {
-				planposition = i; 
-				break;
-			}
-		}
-
-		//planPOS is captured. if PLAN POS available the row is updated else new activity log created
-		if(activityType == 'W') {
-			//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + " W ";
-			if (planposition !=null) {
-				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos !=nuk"+i;
-				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'#7FFF00', col2:row.col1, color2:row.color1,state:"WIP"};
-				setTimeout(function(){updateWIPPlanned(planposition,side);}, 6000);
-			} else {
-				//document.getElementById('screen1').innerHTML = document.getElementById('screen1').innerHTML + "pos else "+contentArray.length;
-				activityLog = {activityName:buttonId, col1:log, color1:'#7FFF00', state:"WIP"};
-				var wipPos = contentArray.length;
-				//document.getElementById('screen1').innerHTML = "BEfore SetTimeOut"+wipPos;
-				setTimeout(function(){updateWIP(wipPos,side);}, 6000);
-			}
-
-		} else if (activityType == 'D') {
-			if(planposition !=null) {
-				contentArray[planposition] = {activityName:buttonId, col1:log, color1:'lightblue', col2:row.col1, color2:row.color1,state:"DONE"};
-			} else {
-				activityLog = {activityName:buttonId, col1:log, color1:'lightblue', state:"DONE"};
-			}
-
-		}
-
-	}
-
-	//ON PLAN EXISTS FOR THIS ACTIVITY
-	if(activityLog!=null) {
-		var updatedArray=[activityLog];
-		contentArray = contentArray.concat(updatedArray);
-	} else {
-		//NO NEW CONTENT. EDIT IS DONE ON THE EXISTING ARRAY
-	}
-
-	screenContent(side);
-	if(side == 1) {
-		setTimeout(function(){screenContent(2);}, 3000);
-	} else if(side ==2) {
-		setTimeout(function(){screenContent(1);}, 3000);
-
-	}
-}
-
-/*function syncInformation() {
-    document.getElementById('screen2').innerHTML = document.getElementById('screen2').innerHTML+"\ntest";
-}
-*/
-
-function updateWIP(i,side) {
-	var log = getCurrentTime()+" D"+side;
-	activityLog = contentArray[i];
-	contentArray[i] = {activityName:activityLog.activityName, col1:log, color1:'lightblue', col2:activityLog.col1, color2:activityLog.color1, state:"DONE"};
-	screenContent(1);
-	screenContent(2);
-}
-
-function updateWIPPlanned(i,side) {
-	var log = getCurrentTime()+" D"+side;
-	//document.getElementById('screen1').innerHTML = "inside UPdate WIP"+i+" "+contentArray[i].activityName;
-	activityLog = contentArray[i];
-	console.log(activityLog)
-	contentArray[i] = {activityName:activityLog.activityName,
-			col3:activityLog.col2, color3:activityLog.color2,
-			col2:activityLog.col1, color2:activityLog.color1,
-			col1:log, color1:'lightblue',
-			state:"DONE"};
-	screenContent(1);
-}
-
-
-
-function planstate(member) {
-	if(member == 1) {
-		if(plan1 == true) {
-			plan1 = false;
-		} else {
-			plan1 = true;
-		}
-		//document.getElementById('screen1').innerHTML = plan1;
-	}
-	if(member == 2) {
-		if(plan2 == true) {
-			plan2 = false;
-		} else {
-			plan2 = true;
-		}
-		//document.getElementById('screen2').innerHTML = plan2;
-	}
-}
-
-function createSkill(sel){
-  if(sel==1){
-
-    document.getElementById("tr1").style.display="block";
-    document.getElementById("tr2").style.display="none";
-    document.getElementById("tr3").style.display="none";
-    document.getElementById("tr4").style.display="none";
+<head>
+  <style type="text/css">
+  table.main{
+    background-image: url("iphone.png");
+    background-repeat:no-repeat;
+    background-size: 300px 600px;
+    padding-left: 15px;
+    }
+  table, th, td {
+     border: 0px solid black;
   }
-  else if(sel==2){
 
-    document.getElementById("tr1").style.display="none";
-    document.getElementById("tr2").style.display="block";
-    document.getElementById("tr3").style.display="none";
-    document.getElementById("tr4").style.display="none";
-  }
-  else if(sel==3){
+  </style>
+  <script type="text/javascript">
+  var exist =["false", "false", "false", "false", "false"];
+  function showSkill(skillValue){
+    var table=document.getElementById("servants");
+    table.style.width="267px";
+    var innerTable=document.createElement("table");
+    innerTable.style.width="261px";
+    innerTable.style.border="1px solid black";
+    var tr=document.createElement("tr");
 
-    document.getElementById("tr1").style.display="none";
-    document.getElementById("tr2").style.display="none";
-    document.getElementById("tr3").style.display="block";
-    document.getElementById("tr4").style.display="none";
-  }
-  else if(sel==4){
+    var td=document.createElement("td");
+//    td.style.border="1px solid black";
+    var btn=document.createElement("button");
+    btn.type="button";
+    var btn1=document.createElement("button");
+    btn1.type="button";
+    var btn2=document.createElement("button");
+    btn2.type="button";
 
-    document.getElementById("tr1").style.display="none";
-    document.getElementById("tr2").style.display="none";
-    document.getElementById("tr3").style.display="none";
-    document.getElementById("tr4").style.display="block";
+    if(skillValue==1 && exist[0]=="false"){
+      var txt =document.createTextNode("Heart Rate");
+      innerTable.id='Vitals';
+
+      btn.appendChild(txt);
+      btn.style.padding = "0px";
+      btn.id="HrtRt";
+      btn.setAttribute('onclick', "buttonFunction('Vitals',this.id, 'W','G');");
+
+      txt=document.createTextNode("Blood pressure");
+      btn1.appendChild(txt);
+      btn1.style.padding = "0px";
+      btn1.style.margin = "0px 5px";
+      btn1.id="BloodPressure";
+      btn1.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
+
+
+      txt=document.createTextNode("Temperature");
+      btn2.appendChild(txt);
+      btn2.style.padding = "0px";
+      btn2.id="Temperature";
+      btn2.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
+
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      td.appendChild(btn2);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[0]="true";
+    }
+    else if(skillValue==2 && exist[1]=="false"){
+      var txt =document.createTextNode("Infusion Pump");
+      innerTable.id="Medication";
+
+      btn.appendChild(txt);
+      btn.id="Inf";
+      btn.setAttribute('onclick', "buttonFunction('Medication',this.id,'W','S')");
+
+      txt=document.createTextNode("Blood Glucose");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="Gul";
+      btn1.setAttribute('onclick', "buttonFunction('Medication',this.id,'W','S');");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[1]="true";
+    }
+    else if(skillValue==3 && exist[2]=="false"){
+      innerTable.id="Imaging";
+      var txt =document.createTextNode("CT Scan");
+      btn.appendChild(txt);
+      btn.id="Ct";
+      btn.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
+
+      txt=document.createTextNode("ECG");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="Ecg";
+      btn1.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[2]="true";
+    }
+    else if(skillValue==4 && exist[3]=="false"){
+      innerTable.id="EHR";
+      var txt =document.createTextNode("Last Chart");
+      btn.appendChild(txt);
+      btn.id="lastChart";
+      btn.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
+
+      txt=document.createTextNode("Save Chart");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="saveChart";
+      btn1.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[3] = "true";
+    }
+    else{
+
+    }
   }
-  else{
+
+   var contentArray = [];
+   var contentResponse = [];
+   var contentSetArray =[];
+
+
+  async function buttonFunction(servant, skill, activityType, getSet){
+     var planPOS =0;
+    if(getSet =='G'){
+
+          contentArray[contentArray.length] = {activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
+        for(i=0;i<=contentArray.length-1;i++){
+          var row = contentArray[i];
+          if(row.state == "DONE")
+          continue;
+          else {
+            planPOS = i;
+          }
+          screenContent(1,planPOS);
+
+          row.state = "DONE";
+
+        }
+
+    }
+    else if(getSet == 'S'){
+      contentSetArray[contentSetArray.length] ={activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
+
+      screenContent(3,0);
+    }
 
   }
+  async function screenContent(side,planposition){
+
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+  //  td.style.border="1px solid black";
+
+    if(side == 1){
+    var table = document.getElementById(contentArray[planposition].activityTable);
+
+    var txt = document.createTextNode(contentArray[planposition].activityName);
+    td.style.textAlign = "right";
+    td.appendChild(txt);
+
+    tr.appendChild(td);
+    table.appendChild(tr);
+
+    if(contentArray[planposition].activityName == "HrtRt"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'HrtRt: 90bpm' };
+    }
+    else if(contentArray[planposition].activityName == "BloodPressure"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'BP: 120/80' };
+    }
+    else if(contentArray[planposition].activityName == "Temperature"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Temp: 98.3º F/ 36.8º C' };
+    }
+
+    else if(contentArray[planposition].activityName == "Ct"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'CT taken' };
+    }
+    else if(contentArray[planposition].activityName == "Ecg"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Ecg Taken' };
+    }
+    else if(contentArray[planposition].activityName == "saveChart"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'saved' };
+    }
+    else if(contentArray[planposition].activityName == "lastChart"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'last Chart' };
+    }
+    else {
+
+    }
+
+    await sleep(3000);
+    screenContent(2, planposition);
+
+    }
+    else if(side==2){
+      var table = document.getElementById(contentResponse[planposition].activityTable);
+      var txt= document.createTextNode(contentResponse[planposition].activityName);
+      td.appendChild(txt);
+      tr.appendChild(td);
+      table.appendChild(tr);
+
+    }
+    else if(side==3){
+      var table = document.getElementById(contentSetArray[contentSetArray.length-1].activityTable);
+      var td1=document.createElement("td");
+      var tr1=document.createElement("tr");
+      var txt =document.createTextNode(contentSetArray[contentSetArray.length-1].activityName);
+
+      td1.style.textAlign ="right";
+      td1.appendChild(txt);
+      tr1.appendChild(td1);
+      table.appendChild(tr1);
+      await sleep(400);
+      var setValueBox = document.createElement("input");
+      setValueBox.type = "number";
+      setValueBox.id= contentSetArray[contentSetArray.length-1].activityName + contentSetArray.length;
+      var btn=document.createElement("input");
+      btn.type="button";
+      btn.name=setValueBox.id;
+      btn.class = contentSetArray[contentSetArray.length-1].activityTable;
+      btn.id= contentSetArray[contentSetArray.length-1].activityName;
+      btn.setAttribute('onclick',"screenForSetReply(this.id, this.class,this.name);");
+
+      btn.value="set " + contentSetArray[contentSetArray.length-1].activityName;
+      td.appendChild(setValueBox);
+
+      td.appendChild(btn);
+      tr.appendChild(td);
+      table.appendChild(tr);
+    }
+
+  }
+  function screenForSetReply(btnid, tableid, txtid){
+    var table = document.getElementById(tableid);
+    var txt;
+
+    if(btnid =="Gul"){
+       txt = "Gul set as " +document.getElementById(txtid).value ;
+
+    }
+    else if(btnid=="Inf"){
+       txt ="Inf set as "+document.getElementById(txtid).value;
+    }
+    var txt1 =document.createTextNode(txt);
+    var td=document.createElement("td");
+    var tr=document.createElement("tr");
+    td.appendChild(txt1);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    document.getElementById(txtid).value = "";
+  }
+  function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
-</script>
-<style>
-table .table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */
-				background-repeat:no-repeat;
-				background-size: 300px 600px;
-				padding-left: 15px;
+  </script>
+</head>
+<body>
+<center>
+  <table class="main" style="width:300px; height:600px;" >
 
-				}
+    <tr valign="top">
+      <td >
 
-table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns.com */
-				background-repeat:no-repeat;
-				background-size: 300px 600px;
-				padding-left: 15px;
+      <div id="servantList" style="margin:40px 0px 10px 0px;">
+      &nbsp Patient Name: Alan <br/>
+      <img src="line.png" alt="" width="95%" /><br />
+        &nbsp Select Servant<br/><br>
+        &nbsp   <button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
+        <button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
+        <button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
+        <button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
+        <img src="line.png" alt="" width="95%" >
+      </div>
+      <table id="servants">
 
-				}
-
-table, th, td {
-   border: 0px solid black;
-}
-
-.button {
-    background-color: #4169E1;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    padding: 10px 0px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 2px;
-    width: 90px;
-    height:40px;
-}
-
-.planBTN {
-    background-color: #566573;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    padding: 10px 18px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 2px;
-    cursor: pointer;
-    width: 25%;
-    height:43px;
-}
-
-
-
-
-</style>
-<body onload="onLoad()">
-<center><br>**This is a working demo**
-  <br>Assisant is Interface to ALL Servants(Apps/Machines).
-  <br>Try selecting servants and use their skills.
-  <br>Activity logs appear as list.<br>
-</center>
-  <center>
-  <table>
-	<tr align="center" height="30">
-		<td>
-		</td>
-
-	</tr>
-	<tr>
-		<td>
-			<table style="width:300px" class="table1" >
-			<tbody>
-
-			<tr>
-				<td>
-				<table>
-					<tr height="45">
-					</tr>
-					<tr valign="bottom" >
-						<td >
-						Patient:Alan
-						</td>
-						<td width="40">
-						</td>
-						<td align="right" bgcolor="lightblue">
-						DONE
-						</td>
-						<td align="right" bgcolor="#7FFF00">
-						WIP
-						</td>
-						<!--
-						<td align="right" bgcolor="yellow">
-						PLAN
-						</td>
-                                                -->
-					</tr>
-				</table>
-				</td>
-			</tr>			<tr valign="top" height="300">
-				<td>
-					<p id="screen1"></p>
-					<table id="s1tc">
-					</table>
-				</td>
-			</tr>
-      <tr>
-        <td>
-      <img src="line.png" alt="" width="95%" ><br>
-      &nbsp Select Servant
+      </table>
     </td>
-      <tr>
-      <tr>
-        <td>&nbsp<button type="button" value="Vitals" onclick="createSkill(1)">Vitals</button>
-        <button type="button" value="Medication" onclick="createSkill(2)">Medication</button>
-        <button type="button" value="Imaging" onclick="createSkill(3)">Imaging</button>
-        <button type="button" value="EHR" onclick="createSkill(4)">EHR</button> </td>
+    </tr>
 
-      </tr>
-			<tr>
-				<td>
-					<img src="line.png" alt="" width="95%" >
-          &nbsp &nbspUse Skill(s)
-				</td>
-			</tr>
-
-
-<!--table 1-->
-			<tr align="center" valign="top" height="220" id="tr1">
-				<td>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Hrt Rt">
-					Heart Rate</button>
-
-					<!--
-					<div class="onoffswitch">
-   					 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-    					 <label class="onoffswitch-label" for="myonoffswitch">
- 					 <span class="onoffswitch-inner"></span>
-       					 <span class="onoffswitch-switch"></span>
-    					 </label>
-					</div>
-					-->
-
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Tempe">
-					Temperature</button>
-
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Bld Pr">
-					Blood Pressure</button>
-
-				</td>
-			</tr>
-
-      <!--table 2-->
-      <tr align="center" valign="top" height="220" id="tr2">
-				<td>
-
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Inf Pmp">
-					Infusion Pump</button>
-					<!--
-					<div class="onoffswitch">
-   					 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-    					 <label class="onoffswitch-label" for="myonoffswitch">
- 					 <span class="onoffswitch-inner"></span>
-       					 <span class="onoffswitch-switch"></span>
-    					 </label>
-					</div>
-					-->
-
-
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Sug Lvl">
-					Blood Glucose</button>
-
-				</td>
-			</tr>
-			<!--table3-->
-      <tr align="center" valign="top" height="220" id="tr3">
-				<td>
-
-					<!--
-					<div class="onoffswitch">
-   					 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-    					 <label class="onoffswitch-label" for="myonoffswitch">
- 					 <span class="onoffswitch-inner"></span>
-       					 <span class="onoffswitch-switch"></span>
-    					 </label>
-					</div>
-					-->
-
-
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="CT Scan">
-					CT SCAN</button>
-					<button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Elec Ca">
-					ECG</button>
-				</td>
-			</tr>
-<!--table 4  -->
-      <tr align="center" valign="top" height="220" id="tr4">
-        <td>
-
-          <!--
-          <div class="onoffswitch">
-             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-               <label class="onoffswitch-label" for="myonoffswitch">
-           <span class="onoffswitch-inner"></span>
-                 <span class="onoffswitch-switch"></span>
-               </label>
-          </div>
-          -->
-
-
-          <button class="button" type="button" onclick="buttonFunction(1,this.id,'D')" id="Last Chart">
-          Last Chart</button>
-          <button class="button" type="button" onclick="buttonFunction(1,this.id,'W')" id="Save Chart">
-          Save Chart</button>
-        </td>
-      </tr>
-			</tbody>
-			</table>
-		</td>
-	</tr>
-</table>
-
-
-
-
+  </table>
+</center>
 </body>
 </html>

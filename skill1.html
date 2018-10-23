@@ -1,1 +1,156 @@
-coming soon
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  table.main{
+    background-image: url("iphone.png");
+    background-repeat:no-repeat;
+    background-size: 300px 600px;
+    padding-left: 15px;
+    }
+  table, th, td {
+     border: 0px solid black;
+  }
+
+  </style>
+  <script type="text/javascript">
+  var global=1;
+  //var skill = {skillName:"skill Name",  skilltype:"G/S"}
+  //var servent = {serventID:"1",serventName:"Vitals", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
+  function onLoad(){
+    var table =document.getElementById("servantNavigator");
+
+
+  }
+  function addSkill(){
+    var select = document.createElement("SELECT");
+    var option =[];
+    var txt;
+    global++;
+
+    for(i=1;i<=5;i++){
+    option[i] = document.createElement("OPTION");
+    txt = document.createTextNode("Skill "+i);
+
+    option[i].appendChild(txt);
+
+    select.appendChild(option[i]);
+    }
+    select.id="select"+global;
+    var btn=document.createElement("input");
+    btn.type="button";
+    btn.value="Add Skill";
+    btn.setAttribute('onclick',"addSkill();");
+
+    var td= document.createElement("td");
+    var tr= document.createElement("tr");
+    var table=document.getElementById("servantArea");
+    var txt =document.createTextNode(" ");
+    td.appendChild(txt);
+    td.appendChild(select);
+    td.appendChild(txt);
+
+    td.appendChild(btn);
+    tr.appendChild(td);
+    tr.style.height="30";
+    table.appendChild(tr);
+  }
+  function createServant(){
+    var btn = document.createElement("input");
+    var servant = document.getElementById("servantName").value;
+    btn.value=servant;
+    btn.type="button";
+    var td=document.getElementById("servantNavigator");
+    td.appendChild(btn);
+
+  }
+  </script>
+</head>
+<body onload="onLoad()">
+<center>
+    <table>
+      <tr>
+        <td>
+    <table class="main" style="width:300px; height:600px;" >
+
+      <tr valign="top">
+        <td >
+
+        <div id="servantList" style="margin:40px 0px 10px 0px;">
+        <img src="line.png" alt="" width="95%" /><br />
+          &nbsp Servant Navigator<br/><br>
+          <table >
+            <tr>
+              <td id="servantNavigator">
+              </td>
+            </tr>
+          </table>
+          <img src="line.png" alt="" width="95%" >
+        </div>
+
+      </td>
+      </tr>
+
+    </table>
+  </td>
+
+  <td>
+  <table class="dummyTable" style="width:300px; height:600px;" >
+  </table>
+  </td>
+
+
+  <td>
+<table class="main" style="width:300px; height:600px;" >
+  <tr height="45">
+    <td> </td>
+  </tr>
+  <tr height="30">
+    <td> &nbsp Servant Maker</td>
+  </tr>
+  <tr height="30">
+    <td> <img src="line.png" alt="" width="95%" ></td>
+  </tr>
+  <tr height="30">
+    <td>
+  <table id="servantArea">
+  <tr height="30">
+    <td> &nbsp <input type="text" id="servantName" placeholder="Servant Name here" /></td>
+  </tr>
+  <tr height="30">
+    <td> &nbsp <select id="select1">
+      <option>Skill 1</option>
+      <option>Skill 2</option>
+      <option>Skill 3</option>
+      <option>Skill 4</option>
+      <option>Skill 5</option>
+
+
+    </select>
+    <input type="button" value="Add Skill" onclick="addSkill();"/>
+</td>
+  </tr>
+</table>
+</td>
+</tr>
+  <tr height="30">
+    <td> <img src="line.png" alt="" width="95%" ></td>
+  </tr>
+  <tr height="30">
+    <td><center><input type="button" value="Create Servant" onclick="createServant();"/></center></td>
+  </tr>
+
+<tr valign="bottom">
+  <td>
+
+  </td>
+</tr>
+
+</table>
+</td>
+
+</tr>
+</table>
+</center>
+</body>
+</html>
