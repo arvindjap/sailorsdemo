@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+  table.main{
+    background-image: url("iphone.png");
+    background-repeat:no-repeat;
+    background-size: 300px 600px;
+    padding-left: 15px;
+    }
+  table, th, td {
+     border: 0px solid black;
+  }
+
+  </style>
+
+<!-- OnLoad Script -->
+<script>
+	var doc1ServentArray = new Array();
+	var doc2ServentArray = new Array();
+	function onLoad() {
+    	var servent = {serventName:"Servant1", serventid:"1"};
+    	doc1ServentArray[doc1ServentArray.length] = servent;
+    	var servent = {serventName:"Servant2", serventid:"2"};
+    	doc1ServentArray[doc1ServentArray.length] = servent;
+
+    	var servent = {serventName:"Servant3", serventid:"3"};
+    	doc2ServentArray[doc2ServentArray.length] = servent;
+    	var servent = {serventName:"Servant4", serventid:"4"};
+    	doc2ServentArray[doc2ServentArray.length] = servent;
+
+
+
+    	for(i=0;i<doc1ServentArray.length;i++) {
+    		servent = doc1ServentArray[i];
+        	var divElemt = document.getElementById("servantList1");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);
+    	}
+
+    	for(i=0;i<doc2ServentArray.length;i++) {
+    		servent = doc2ServentArray[i];
+        	var divElemt = document.getElementById("servantList2");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);
+    	}
+
+		var doc1patientName = document.getElementById("doc1patientName");
+		var doc2patientName = document.getElementById("doc2patientName");
+		doc1patientName.innerHTML = "Patient Name: Gary";
+		doc2patientName.innerHTML = "Patient Name: Alan";
+
+	}
+
+	function swapDoctors() {
+		var doc1patientName = document.getElementById("doc1patientName");
+		var doc2patientName = document.getElementById("doc2patientName");
+		var temp = doc1patientName.innerHTML;
+		doc1patientName.innerHTML = doc2patientName.innerHTML;
+		doc2patientName.innerHTML =temp;
+
+		var temp = doc1ServentArray;
+		doc1ServentArray = doc2ServentArray;
+		doc2ServentArray = temp;
+
+		var divElemt = document.getElementById("servantList1");
+		divElemt.innerHTML="";
+		var divElemt = document.getElementById("servantList2");
+		divElemt.innerHTML="";
+
+		for(i=0;i<doc1ServentArray.length;i++) {
+			servent = doc1ServentArray[i];
+        	var divElemt = document.getElementById("servantList1");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);
+    	}
+
+    	for(i=0;i<doc2ServentArray.length;i++) {
+    		servent = doc2ServentArray[i];
+        	var divElemt = document.getElementById("servantList2");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);
+    	}
+
+    	var doc1postemp = document.getElementById("doc1pos1");
+    	var teminnerhtml = doc1postemp.innerHTML;
+    	doc1postemp.innerHTML = document.getElementById("doc1pos2").innerHTML;
+    	document.getElementById("doc1pos2").innerHTML = teminnerhtml;
+
+    	var doc1postemp = document.getElementById("doc2pos1");
+    	var teminnerhtml = doc1postemp.innerHTML;
+    	doc1postemp.innerHTML = document.getElementById("doc2pos2").innerHTML;
+    	document.getElementById("doc2pos2").innerHTML = teminnerhtml;
+
+
+
+
+	}
+</script>
+
+
+  <script type="text/javascript">
+  var exist =["false", "false", "false", "false", "false"];
+  function showSkill(skillValue){
+    var table=document.getElementById("servants");
+    var innerTable=document.createElement("table");
+    var tr=document.createElement("tr");
+    var td=document.createElement("td");
+    var btn=document.createElement("button");
+    btn.type="button";
+    var btn1=document.createElement("button");
+    btn1.type="button";
+    var btn2=document.createElement("button");
+    btn2.type="button";
+
+    if(skillValue==1 && exist[0]=="false"){
+      var txt =document.createTextNode("Heart Rate");
+      innerTable.id='Vitals';
+
+      btn.appendChild(txt);
+      btn.style.padding = "0px";
+      btn.id="HrtRt";
+      btn.setAttribute('onclick', "buttonFunction('Vitals',this.id, 'W','G');");
+
+      txt=document.createTextNode("Blood pressure");
+      btn1.appendChild(txt);
+      btn1.style.padding = "0px";
+      btn1.style.margin = "0px 5px";
+      btn1.id="BloodPressure";
+      btn1.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
+
+
+      txt=document.createTextNode("Temperature");
+      btn2.appendChild(txt);
+      btn2.style.padding = "0px";
+      btn2.id="Temperature";
+      btn2.setAttribute('onclick', "buttonFunction('Vitals',this.id,'W','G');");
+
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      td.appendChild(btn2);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[0]="true";
+    }
+    else if(skillValue==2 && exist[1]=="false"){
+      var txt =document.createTextNode("Infusion Pump");
+      innerTable.id="Medication";
+
+      btn.appendChild(txt);
+      btn.id="Inf";
+      btn.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S)");
+
+      txt=document.createTextNode("Blood Glucose");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="Gul";
+      btn1.setAttribute('onclick', "buttonFunction('Medication',this.id,W,S);");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[1]="true";
+    }
+    else if(skillValue==3 && exist[2]=="false"){
+      innerTable.id="Imaging";
+      var txt =document.createTextNode("CT Scan");
+      btn.appendChild(txt);
+      btn.id="Ct";
+      btn.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
+
+      txt=document.createTextNode("ECG");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="Ecg";
+      btn1.setAttribute('onclick', "buttonFunction('Imaging',this.id,'W','G');");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[2]="true";
+    }
+    else if(skillValue==4 && exist[3]=="false"){
+      innerTable.id="EHR";
+      var txt =document.createTextNode("Last Chart");
+      btn.appendChild(txt);
+      btn.id="lastChart";
+      btn.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
+
+      txt=document.createTextNode("Save Chart");
+      btn1.appendChild(txt);
+      btn1.style.margin = "0px 5px";
+      btn1.id="saveChart";
+      btn1.setAttribute('onclick', "buttonFunction('EHR',this.id,'W','G');");
+
+      td.appendChild(btn);
+      td.appendChild(btn1);
+      tr.appendChild(td);
+      innerTable.appendChild(tr);
+      table.appendChild(innerTable);
+      exist[3] = "true";
+    }
+    else{
+
+    }
+  }
+
+   var contentArray = [];
+   var contentResponse = [];
+
+
+  function buttonFunction(servant, skill, activityType, getSet){
+     var planPOS =0;
+    if(getSet =='G'){
+      if(activityType=='W'){
+
+          contentArray[contentArray.length] = {activityTable: servant, activityName: skill, color1: "Yellow", col3:"true", state: "WAIT"};
+        for(i=0;i<=contentArray.length-1;i++){
+          var row = contentArray[i];
+          if(row.state == "DONE")
+          continue;
+          else {
+            planPOS = i;
+          }
+
+          screenContent(1,planPOS);
+          row.state = "DONE";
+        }
+
+
+      }
+    }
+  }
+  async function screenContent(side,planposition){
+
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+
+    if(side == 1){
+    var table = document.getElementById(contentArray[planposition].activityTable);
+
+    var txt = document.createTextNode(contentArray[planposition].activityName);
+    td.style.textAlign = "right";
+    td.appendChild(txt);
+
+    tr.appendChild(td);
+    table.appendChild(tr);
+
+    if(contentArray[planposition].activityName == "HrtRt"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'HrtRt: 90bpm' };
+    }
+    else if(contentArray[planposition].activityName == "BloodPressure"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'BP: 120/80' };
+    }
+    else if(contentArray[planposition].activityName == "Temperature"){
+      contentResponse[contentResponse.length] = {activityTable: contentArray[planposition].activityTable ,activityName: 'Temp: 98.3º F/ 36.8º C' };
+    }
+
+
+    await sleep(3000);
+    screenContent(2, planposition);
+
+    }
+    if(side==2){
+      var table = document.getElementById(contentResponse[planposition].activityTable);
+      var txt= document.createTextNode(contentResponse[planposition].activityName);
+      td.appendChild(txt);
+      tr.appendChild(td);
+      table.appendChild(tr);
+    }
+  }
+  function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+  </script>
+</head>
+<body onload="onLoad()">
+	<table style="width:100%; border:1px; height:600px;">
+		<tr>
+			<td width="33%">
+
+				  <table id="doc1Table" class="main" style="width:300px; height:600px;"  >
+				    <tr valign="top">
+				      	<td >
+				      		<div id="doc1TopDiv" style="margin:40px 0px 10px 0px;">
+				      		&nbsp <div id="doc1patientName"></div> <br/>
+				      		<img src="line.png" alt="" width="95%" /><br />
+				        	&nbsp Select Servant<br/><br>
+				        	&nbsp
+				        	<div id="servantList1"></div>
+				        	<!--
+				        	<button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
+				        	<button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
+				        	<button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
+				        	<button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
+				        	 -->
+
+				      		</div>
+				      		<img src="line.png" alt="" width="95%"/>
+				      		<table id="servants">
+
+				      		</table>
+				    	</td>
+				    </tr>
+				  </table>
+			</td>
+			<td width="33%">
+				<table id="erRoomTable" style="width:100%; height:100%;">
+					<tr height="100px">
+						<td></td>
+						<td align="center"><button onclick="swapDoctors()">SWAP DOCTOR</button></td>
+						<td></td>
+					</tr>
+					<tr height="30%">
+						<td width="33%" id="doc1pos1"><img src="doctor1.png" alt="Doctor1" style="width:70px;height:70px;"></td>
+						<td width="33%">
+							<table style="width:100%; height:100%;">
+								<tr height="33%"><td>Servant1</td><td></td><td></td></tr>
+								<tr height="33%"><td></td><td><img src="bed.png"/><div align="center">Gray</div></td><td></td></tr>
+								<tr height="33%"><td></td><td></td><td>Servant2</td></tr>
+							</table>
+						</td>
+						<td width="33%" id="doc2pos2"></img></td>
+					</tr>
+					<tr height="30">
+					</tr>
+					<tr height="30%">
+						<td width="33%" id="doc1pos2"></td>
+						<td width="33%">
+							<table style="width:100%; height:100%;">
+								<tr><td>Servant3</td><td></td><td></td></tr>
+								<tr><td></td><td><img src="bed.png"/><div align="center">Alan</div></td><td></td></tr>
+								<tr><td></td><td></td><td>Servant4</td></tr>
+							</table>
+
+						</td>
+						<td width="33%" id="doc2pos1"><img src="doctor2.png" alt="Doctor2" style="width:70px;height:70px;"></td>
+					</tr>
+					<tr height="100px">
+					</tr>
+				</table>
+			</td>
+			<td width="33%" align="right">
+				  <table id="doc2Table" class="main" style="width:300px; height:600px;"  >
+				    <tr valign="top">
+				      	<td >
+				      		<div id="doc2TopDiv" style="margin:40px 0px 10px 0px;">
+				      		<div id="doc2patientName"></div> <br/>
+				      		<img src="line.png" alt="" width="95%" /><br />
+				        	&nbsp Select Servant<br/><br>
+				        	&nbsp
+				        	<div id="servantList2"></div>
+				        	<!--
+				        	<button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
+				        	<button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
+				        	<button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
+				        	<button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
+				        	 -->
+
+				      		</div>
+				      		<img src="line.png" alt="" width="95%"/>
+				      		<table id="servants">
+
+				      		</table>
+				    	</td>
+				    </tr>
+				  </table>
+
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
