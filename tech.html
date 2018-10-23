@@ -9,7 +9,7 @@
     padding-left: 15px;
     }
   table, th, td {
-     border: 1px solid black;
+     border: 0px solid black;
   }
 
   </style>
@@ -18,6 +18,7 @@
 <script>
 	var doc1ServentArray = new Array();
 	var doc2ServentArray = new Array();
+	var swapped = false;
 	function onLoad() {
     	var servent = {serventName:"Servent1", serventid:"1"};
     	doc1ServentArray[doc1ServentArray.length] = servent;
@@ -26,29 +27,31 @@
 
     	var servent = {serventName:"Servent3", serventid:"3"};
     	doc2ServentArray[doc2ServentArray.length] = servent;
-    	var servent = {serventName:"Servent4", serventid:"4"};
-    	doc2ServentArray[doc2ServentArray.length] = servent;
+    	//var servent = {serventName:"Servent4", serventid:"4"};
+    	//doc2ServentArray[doc2ServentArray.length] = servent;
 
 
 
     	for(i=0;i<doc1ServentArray.length;i++) {
     		servent = doc1ServentArray[i];
+    		var displayAreaId= "chatDisplay1";
         	var divElemt = document.getElementById("servantList1");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
      		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+",'chatDisplay1')");
      		button.innerHTML = servent.serventName;
     		divElemt.appendChild(button);
     	}
 
     	for(i=0;i<doc2ServentArray.length;i++) {
     		servent = doc2ServentArray[i];
+    		var displayAreaId= "chatDisplay2";
         	var divElemt = document.getElementById("servantList2");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
      		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+",'chatDisplay2')");
      		button.innerHTML = servent.serventName;
     		divElemt.appendChild(button);
     	}
@@ -61,6 +64,11 @@
 	}
 
 	function swapDoctors() {
+		if (swapped == false) {
+			swapped = true;
+		} else {
+			swapped = false;
+		}
 		var doc1patientName = document.getElementById("doc1patientName");
 		var doc2patientName = document.getElementById("doc2patientName");
 		var temp = doc1patientName.innerHTML;
@@ -77,23 +85,25 @@
 		divElemt.innerHTML="";
 
 		for(i=0;i<doc1ServentArray.length;i++) {
+			var displayAreaId= "chatDisplay1";
 			servent = doc1ServentArray[i];
         	var divElemt = document.getElementById("servantList1");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
      		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay1')");
      		button.innerHTML = servent.serventName;
     		divElemt.appendChild(button);
     	}
 
     	for(i=0;i<doc2ServentArray.length;i++) {
+    		var displayAreaId= "chatDisplay2";
     		servent = doc2ServentArray[i];
         	var divElemt = document.getElementById("servantList2");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
      		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
      		button.innerHTML = servent.serventName;
     		divElemt.appendChild(button);
     	}
@@ -112,12 +122,54 @@
 
 
 	}
+	
+	function addServent(roomNo) {
+		if(roomNo == 2) {
+			var serventaddspace = document.getElementById("addserventspace2");		
+			serventaddspace.innerHTML = "Servent 4";	
+			
+			if(swapped == true) {				
+				var servent = {serventName:"Servent4", serventid:"4"};
+		    	doc2ServentArray[doc2ServentArray.length] = servent;			
+				var displayAreaId= "chatDisplay1";
+	    		servent = doc2ServentArray[i];
+	        	var divElemt = document.getElementById("servantList1");
+	    		var button = document.createElement("button");
+	     		button.setAttribute("type", "button");
+	     		button.setAttribute("value", servent.serventName);
+	     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
+	     		button.innerHTML = servent.serventName;
+	    		divElemt.appendChild(button);
+				
+				
+			} else {
+				var servent = {serventName:"Servent4", serventid:"4"};
+		    	doc2ServentArray[doc2ServentArray.length] = servent;			
+				var displayAreaId= "chatDisplay2";
+	    		servent = doc2ServentArray[i];
+	        	var divElemt = document.getElementById("servantList2");
+	    		var button = document.createElement("button");
+	     		button.setAttribute("type", "button");
+	     		button.setAttribute("value", servent.serventName);
+	     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
+	     		button.innerHTML = servent.serventName;
+	    		divElemt.appendChild(button);				
+			}
+			
+			
+    		
+		} if (roomNo ==1) {
+			
+		}
+	}
+	
 </script>
   
 <script type="text/javascript">
 var exist =["false", "false", "false", "false", "false"];
-function showSkill(skillValue){
-  var table=document.getElementById("servants");
+function showSkill(skillValue,displayName){
+	document.getElementById("console").innerHTML = displayName;
+  var table=document.getElementById(displayName+"");
   table.style.width="267px";
   var innerTable=document.createElement("table");
   innerTable.style.width="261px";
@@ -371,6 +423,7 @@ return new Promise(resolve => setTimeout(resolve, ms));
 </script>
 </head>
 <body onload="onLoad()">
+	<div id="console"></div>
 	<table style="width:100%; height:600px;">
 		<tr>
 			<td width="33%">
@@ -393,7 +446,7 @@ return new Promise(resolve => setTimeout(resolve, ms));
 
 				      		</div>
 				      		<img src="line.png" alt="" width="95%"/>
-				      		<table id="servants">
+				      		<table id="chatDisplay1">
 
 				      		</table>
 				    	</td>
@@ -407,26 +460,27 @@ return new Promise(resolve => setTimeout(resolve, ms));
 						<td align="center"><button onclick="swapDoctors()">SWAP DOCTOR</button></td>
 						<td></td>
 					</tr>
-					<tr height="30%">
+					<tr height="30%" style="background-image: url(room.png); background-size: 413px 200px;">
 						<td width="33%" id="doc1pos1"><img src="doctor1.png" alt="Doctor1" style="width:70px;height:70px;"></td>
 						<td width="33%">
 							<table style="width:100%; height:100%;">
-								<tr height="33%"><td>Servent1</td><td>Servent2</td><td></td></tr>
-								<tr height="33%"><td></td><td><img src="bed.png"/><div align="center">Gray</div></td><td></td></tr>
-								<tr height="33%"><td></td><td></td><td>Servent3</td></tr>
+								<tr height="33%"><td></td><td><div align="center">Room 1- Gray</div></td><td></td></tr>
+								<tr height="33%"><td></td><td><img src="bed.png"/></td><td></td></tr>
+								<tr height="33%" align="center"><td>Servent1</td><td id="addserventspace1">Servent2</td><td><button onclick="addServent(1)">Add</button></td></tr>
 							</table>
 						</td>
-						<td width="33%" id="doc2pos2"></img></td>
+						<td width="33%" id="doc2pos2"></td>
 					</tr>
 					<tr height="30">
+					<td colspan="3"><img src="line.png" alt="" width="100%" />
 					</tr>
-					<tr height="30%">
+					<tr height="30%" style="background-image: url(room.png); background-size: 413px 200px;">
 						<td width="33%" id="doc1pos2"></td>
 						<td width="33%">
 							<table style="width:100%; height:100%;">
-								<tr><td>Servent3</td><td></td><td></td></tr>
-								<tr><td></td><td><img src="bed.png"/><div align="center">Alan</div></td><td></td></tr>
-								<tr><td></td><td></td><td>Servent4</td></tr>
+								<tr><td></td><td><div align="center">Room2 - Alan</div></td><td></td></tr>
+								<tr><td></td><td><img src="bed.png"/></td><td></td></tr>
+								<tr height="33%" align="center"><td>Servent3</td><td id="addserventspace2"></td><td><button onclick="addServent(2)">Add</button></td></tr>
 							</table>
 
 						</td>
@@ -455,7 +509,7 @@ return new Promise(resolve => setTimeout(resolve, ms));
 
 				      		</div>
 				      		<img src="line.png" alt="" width="95%"/>
-				      		<table id="servants">
+				      		<table id="chatDisplay2">
 
 				      		</table>
 				    	</td>
