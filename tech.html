@@ -16,50 +16,50 @@
 
 <!-- OnLoad Script -->
 <script>
-	var doc1ServentArray = new Array();
-	var doc2ServentArray = new Array();
+	var doc1ServantArray = new Array();
+	var doc2ServantArray = new Array();
 	var swapped = false;
 	function onLoad() {
-    	var servent = {serventName:"Servent1", serventid:"1"};
-    	doc1ServentArray[doc1ServentArray.length] = servent;
-    	var servent = {serventName:"Servent2", serventid:"2"};
-    	doc1ServentArray[doc1ServentArray.length] = servent;
+    	var Servant = {ServantName:"Servant1", Servantid:"1"};
+    	doc1ServantArray[doc1ServantArray.length] = Servant;
+    	var Servant = {ServantName:"Servant2", Servantid:"2"};
+    	doc1ServantArray[doc1ServantArray.length] = Servant;
 
-    	var servent = {serventName:"Servent3", serventid:"3"};
-    	doc2ServentArray[doc2ServentArray.length] = servent;
-    	//var servent = {serventName:"Servent4", serventid:"4"};
-    	//doc2ServentArray[doc2ServentArray.length] = servent;
+    	var Servant = {ServantName:"Servant3", Servantid:"3"};
+    	doc2ServantArray[doc2ServantArray.length] = Servant;
+    	//var Servant = {ServantName:"Servant4", Servantid:"4"};
+    	//doc2ServantArray[doc2ServantArray.length] = Servant;
 
 
 
-    	for(i=0;i<doc1ServentArray.length;i++) {
-    		servent = doc1ServentArray[i];
+    	for(i=0;i<doc1ServantArray.length;i++) {
+    		Servant = doc1ServantArray[i];
     		var displayAreaId= "chatDisplay1";
         	var divElemt = document.getElementById("servantList1");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
-     		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+",'chatDisplay1')");
-     		button.innerHTML = servent.serventName;
+     		button.setAttribute("value", Servant.ServantName);
+     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+",'chatDisplay1')");
+     		button.innerHTML = Servant.ServantName;
     		divElemt.appendChild(button);
     	}
 
-    	for(i=0;i<doc2ServentArray.length;i++) {
-    		servent = doc2ServentArray[i];
+    	for(i=0;i<doc2ServantArray.length;i++) {
+    		Servant = doc2ServantArray[i];
     		var displayAreaId= "chatDisplay2";
         	var divElemt = document.getElementById("servantList2");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
-     		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+",'chatDisplay2')");
-     		button.innerHTML = servent.serventName;
+     		button.setAttribute("value", Servant.ServantName);
+     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+",'chatDisplay2')");
+     		button.innerHTML = Servant.ServantName;
     		divElemt.appendChild(button);
     	}
 
 		var doc1patientName = document.getElementById("doc1patientName");
 		var doc2patientName = document.getElementById("doc2patientName");
-		doc1patientName.innerHTML = "Patient Name: Gary";
-		doc2patientName.innerHTML = "Patient Name: Alan";
+		doc1patientName.innerHTML = "Patient : Gary  Doctor : Mary";
+		doc2patientName.innerHTML = "Patient : Alan  Doctor : John";
 
 	}
 
@@ -75,36 +75,36 @@
 		doc1patientName.innerHTML = doc2patientName.innerHTML;
 		doc2patientName.innerHTML =temp;
 
-		var temp = doc1ServentArray;
-		doc1ServentArray = doc2ServentArray;
-		doc2ServentArray = temp;
+		var temp = doc1ServantArray;
+		doc1ServantArray = doc2ServantArray;
+		doc2ServantArray = temp;
 
 		var divElemt = document.getElementById("servantList1");
 		divElemt.innerHTML="";
 		var divElemt = document.getElementById("servantList2");
 		divElemt.innerHTML="";
 
-		for(i=0;i<doc1ServentArray.length;i++) {
+		for(i=0;i<doc1ServantArray.length;i++) {
 			var displayAreaId= "chatDisplay1";
-			servent = doc1ServentArray[i];
+			Servant = doc1ServantArray[i];
         	var divElemt = document.getElementById("servantList1");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
-     		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay1')");
-     		button.innerHTML = servent.serventName;
+     		button.setAttribute("value", Servant.ServantName);
+     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+"'chatDisplay1')");
+     		button.innerHTML = Servant.ServantName;
     		divElemt.appendChild(button);
     	}
 
-    	for(i=0;i<doc2ServentArray.length;i++) {
+    	for(i=0;i<doc2ServantArray.length;i++) {
     		var displayAreaId= "chatDisplay2";
-    		servent = doc2ServentArray[i];
+    		Servant = doc2ServantArray[i];
         	var divElemt = document.getElementById("servantList2");
     		var button = document.createElement("button");
      		button.setAttribute("type", "button");
-     		button.setAttribute("value", servent.serventName);
-     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
-     		button.innerHTML = servent.serventName;
+     		button.setAttribute("value", Servant.ServantName);
+     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+"'chatDisplay2')");
+     		button.innerHTML = Servant.ServantName;
     		divElemt.appendChild(button);
     	}
 
@@ -123,36 +123,36 @@
 
 	}
 	
-	function addServent(roomNo) {
+	function addServant(roomNo) {
 		if(roomNo == 2) {
-			var serventaddspace = document.getElementById("addserventspace2");		
-			serventaddspace.innerHTML = "Servent 4";	
+			var Servantaddspace = document.getElementById("addServantspace2");		
+			Servantaddspace.innerHTML = "Servant 4";	
 			
 			if(swapped == true) {				
-				var servent = {serventName:"Servent4", serventid:"4"};
-		    	doc2ServentArray[doc2ServentArray.length] = servent;			
+				var Servant = {ServantName:"Servant4", Servantid:"4"};
+		    	doc2ServantArray[doc2ServantArray.length] = Servant;			
 				var displayAreaId= "chatDisplay1";
-	    		servent = doc2ServentArray[i];
+	    		Servant = doc2ServantArray[i];
 	        	var divElemt = document.getElementById("servantList1");
 	    		var button = document.createElement("button");
 	     		button.setAttribute("type", "button");
-	     		button.setAttribute("value", servent.serventName);
-	     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
-	     		button.innerHTML = servent.serventName;
+	     		button.setAttribute("value", Servant.ServantName);
+	     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+"'chatDisplay2')");
+	     		button.innerHTML = Servant.ServantName;
 	    		divElemt.appendChild(button);
 				
 				
 			} else {
-				var servent = {serventName:"Servent4", serventid:"4"};
-		    	doc2ServentArray[doc2ServentArray.length] = servent;			
+				var Servant = {ServantName:"Servant4", Servantid:"4"};
+		    	doc2ServantArray[doc2ServantArray.length] = Servant;			
 				var displayAreaId= "chatDisplay2";
-	    		servent = doc2ServentArray[i];
+	    		Servant = doc2ServantArray[i];
 	        	var divElemt = document.getElementById("servantList2");
 	    		var button = document.createElement("button");
 	     		button.setAttribute("type", "button");
-	     		button.setAttribute("value", servent.serventName);
-	     		button.setAttribute("onclick", "showSkill("+servent.serventid+"'chatDisplay2')");
-	     		button.innerHTML = servent.serventName;
+	     		button.setAttribute("value", Servant.ServantName);
+	     		button.setAttribute("onclick", "showSkill("+Servant.Servantid+"'chatDisplay2')");
+	     		button.innerHTML = Servant.ServantName;
 	    		divElemt.appendChild(button);				
 			}
 			
@@ -168,7 +168,7 @@
 <script type="text/javascript">
 var exist =["false", "false", "false", "false", "false"];
 function showSkill(skillValue,displayName){
-	//document.getElementById("console").innerHTML = displayName;
+	document.getElementById("console").innerHTML = displayName;
   var table=document.getElementById(displayName+"");
   table.style.width="267px";
   var innerTable=document.createElement("table");
@@ -466,7 +466,7 @@ return new Promise(resolve => setTimeout(resolve, ms));
 							<table style="width:100%; height:100%;">
 								<tr height="33%"><td></td><td><div align="center">Room 1- Gray</div></td><td></td></tr>
 								<tr height="33%"><td></td><td><img src="bed.png"/></td><td></td></tr>
-								<tr height="33%" align="center"><td>Servent1</td><td id="addserventspace1">Servent2</td><td><button onclick="addServent(1)">Add</button></td></tr>
+								<tr height="33%" align="center"><td>Servant1</td><td id="addServantspace1">Servant2</td><td><button onclick="addServant(1)">Add</button></td></tr>
 							</table>
 						</td>
 						<td width="33%" id="doc2pos2"></td>
@@ -480,7 +480,7 @@ return new Promise(resolve => setTimeout(resolve, ms));
 							<table style="width:100%; height:100%;">
 								<tr><td></td><td><div align="center">Room2 - Alan</div></td><td></td></tr>
 								<tr><td></td><td><img src="bed.png"/></td><td></td></tr>
-								<tr height="33%" align="center"><td>Servent3</td><td id="addserventspace2"></td><td><button onclick="addServent(2)">Add</button></td></tr>
+								<tr height="33%" align="center"><td>Servant3</td><td id="addServantspace2"></td><td><button onclick="addServant(2)">Add</button></td></tr>
 							</table>
 
 						</td>
