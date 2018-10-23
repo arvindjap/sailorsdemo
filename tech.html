@@ -16,91 +16,104 @@
   
 <!-- OnLoad Script -->
 <script>
-	var serventArray = new Array();
-	function onLoad() {
-		var skill1 = {skillName:"Skill1", skillType:"G"}
-    	var servent = {serventName:"Servent1", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-    	serventArray[serventArray.length] = servent;	    	    	
-				
-		/*
-	    	var servent = {serventName:"Servent1", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-	    	serventArray[serventArray.length] = servent;	    	    	
-	    	var divElemt = document.getElementById("servantList1");
-			var button = document.createElement("button");
-	 		button.setAttribute("type", "button");
-	 		button.setAttribute("value", servent.serventName);
-	 		button.setAttribute("onclick", "showSkill(1)");
-	 		button.innerHTML = servent.serventName;
-			divElemt.appendChild(button);	    	
+	var doc1ServentArray = new Array();
+	var doc2ServentArray = new Array();
+	function onLoad() {		
+    	var servent = {serventName:"Servent1", serventid:"1"};
+    	doc1ServentArray[doc1ServentArray.length] = servent;
+    	var servent = {serventName:"Servent2", serventid:"2"};
+    	doc1ServentArray[doc1ServentArray.length] = servent;
+    	
+    	var servent = {serventName:"Servent3", serventid:"3"};
+    	doc2ServentArray[doc2ServentArray.length] = servent;	    	    	
+    	var servent = {serventName:"Servent4", serventid:"4"};
+    	doc2ServentArray[doc2ServentArray.length] = servent;	    	    	
+
+    	
+    	
+    	for(i=0;i<doc1ServentArray.length;i++) {
+    		servent = doc1ServentArray[i];
+        	var divElemt = document.getElementById("servantList1");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);	    	    	    		
+    	}
+    		    	    	
+    	for(i=0;i<doc2ServentArray.length;i++) {
+    		servent = doc2ServentArray[i];
+        	var divElemt = document.getElementById("servantList2");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);	    	    	    		
+    	}
+
+		var doc1patientName = document.getElementById("doc1patientName");
+		var doc2patientName = document.getElementById("doc2patientName");
+		doc1patientName.innerHTML = "Patient Name: Gary";
+		doc2patientName.innerHTML = "Patient Name: Alan";
 		
-		*/
+	}
+	
+	function swapDoctors() {
+		var doc1patientName = document.getElementById("doc1patientName");
+		var doc2patientName = document.getElementById("doc2patientName");
+		var temp = doc1patientName.innerHTML;
+		doc1patientName.innerHTML = doc2patientName.innerHTML;
+		doc2patientName.innerHTML =temp;
 		
+		var temp = doc1ServentArray;
+		doc1ServentArray = doc2ServentArray;
+		doc2ServentArray = temp;
+		
+		var divElemt = document.getElementById("servantList1");
+		divElemt.innerHTML="";
+		var divElemt = document.getElementById("servantList2");
+		divElemt.innerHTML="";
+		
+		for(i=0;i<doc1ServentArray.length;i++) {
+			servent = doc1ServentArray[i];
+        	var divElemt = document.getElementById("servantList1");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);	    	    	    		
+    	}
+    		    	    	
+    	for(i=0;i<doc2ServentArray.length;i++) {
+    		servent = doc2ServentArray[i];
+        	var divElemt = document.getElementById("servantList2");
+    		var button = document.createElement("button");
+     		button.setAttribute("type", "button");
+     		button.setAttribute("value", servent.serventName);
+     		button.setAttribute("onclick", "showSkill("+servent.serventid+")");
+     		button.innerHTML = servent.serventName;
+    		divElemt.appendChild(button);	    	    	    		
+    	}				
+    	
+    	var doc1postemp = document.getElementById("doc1pos1");
+    	var teminnerhtml = doc1postemp.innerHTML;     	
+    	doc1postemp.innerHTML = document.getElementById("doc1pos2").innerHTML;
+    	document.getElementById("doc1pos2").innerHTML = teminnerhtml;
+    	
+    	var doc1postemp = document.getElementById("doc2pos1");
+    	var teminnerhtml = doc1postemp.innerHTML;     	
+    	doc1postemp.innerHTML = document.getElementById("doc2pos2").innerHTML;
+    	document.getElementById("doc2pos2").innerHTML = teminnerhtml;
+    	
+    	
+    	
+    	
 	}
 </script>  
 
-<!-- Dragdrop script -->  
-<script>	
-	//var skillMap = {};
-	function allowDrop(ev) {
-	    ev.preventDefault();
-	}
-	
-	function drag(ev) {
-	    ev.dataTransfer.setData("text", ev.target.id);
-	   	//document.getElementById(ev.target.id).style.backgroundImage="url('iphoneicon.jpeg')";
-	}
-	
-	function drop(ev) {
-	    ev.preventDefault();
-	    var data = ev.dataTransfer.getData("text");
-	    ev.target.appendChild(document.getElementById("drag1"));
-	    
-	    
-	    if(ev.target.id == "room1drop") {
-	    	var servent = {serventName:"Servent1", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-	    	serventArray[serventArray.length] = servent;	    	    	
-	    	var divElemt = document.getElementById("servantList1");
-			var button = document.createElement("button");
-	 		button.setAttribute("type", "button");
-	 		button.setAttribute("value", servent.serventName);
-	 		button.setAttribute("onclick", "showSkill(1)");
-	 		button.innerHTML = servent.serventName;
-			divElemt.appendChild(button);	    	
-	    } else if(ev.target.id == "room2drop") {
-	    	var servent = {serventName:"Servent2", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-	    	serventArray[serventArray.length] = servent;	    	    	
-	    	var divElemt = document.getElementById("servantList1");
-			var button = document.createElement("button");
-	 		button.setAttribute("type", "button");
-	 		button.setAttribute("value", servent.serventName);
-	 		button.setAttribute("onclick", "showSkill(1)");
-	 		button.innerHTML = servent.serventName;
-			divElemt.appendChild(button);	    	
-	    } else if(ev.target.id == "room3drop") {
-	    	var servent = {serventName:"Servent3", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-	    	serventArray[serventArray.length] = servent;	    	    	
-	    	var divElemt = document.getElementById("servantList1");
-			var button = document.createElement("button");
-	 		button.setAttribute("type", "button");
-	 		button.setAttribute("value", servent.serventName);
-	 		button.setAttribute("onclick", "showSkill(1)");
-	 		button.innerHTML = servent.serventName;
-			divElemt.appendChild(button);	    	
-	    } else if(ev.target.id == "room4drop") {
-	    	var servent = {serventName:"Servent4", skill1:"", skill2:"", skill3:"", skill4:"", skill5:""};
-	    	serventArray[serventArray.length] = servent;	    	    	
-	    	var divElemt = document.getElementById("servantList1");
-			var button = document.createElement("button");
-	 		button.setAttribute("type", "button");
-	 		button.setAttribute("value", servent.serventName);
-	 		button.setAttribute("onclick", "showSkill(1)");
-	 		button.innerHTML = servent.serventName;
-			divElemt.appendChild(button);	    	
-	    }
-	    
-	}
-	
-</script>  
   
   <script type="text/javascript">
   var exist =["false", "false", "false", "false", "false"];
@@ -290,14 +303,15 @@
 		<tr>
 			<td width="33%">
 				  	
-				  <table id="doc1Table" draggable="true" ondragstart="drag(event)" class="main" style="width:300px; height:600px;"  >
+				  <table id="doc1Table" class="main" style="width:300px; height:600px;"  >
 				    <tr valign="top">
 				      	<td >
-				      		<div id="servantList1" style="margin:40px 0px 10px 0px;">
-				      		&nbsp Patient Name: Alan <br/>
+				      		<div id="doc1TopDiv" style="margin:40px 0px 10px 0px;">
+				      		&nbsp <div id="doc1patientName"></div> <br/>
 				      		<img src="line.png" alt="" width="95%" /><br />
 				        	&nbsp Select Servant<br/><br>
-				        	&nbsp   
+				        	&nbsp
+				        	<div id="servantList1"></div>   
 				        	<!-- 				        	
 				        	<button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
 				        	<button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
@@ -316,47 +330,57 @@
 			</td>
 			<td width="33%">
 				<table id="erRoomTable" style="width:100%; height:100%;">
-					<tr>
-						<td width="33%">Servent 1</td>
-						<td width="33%"><div id="room1drop" ondrop="drop(event)" ondragover="allowDrop(event)" style="height:100%; width:100%; background:#FFFAFA"></div></td>
-						<td width="33%"></td>						
+					<tr height="100px">
+						<td></td>
+						<td align="center"><button onclick="swapDoctors()">SWAP DOCTOR</button></td>
+						<td></td>
 					</tr>
-					<tr>
-						<td width="33%"></td>
-						<td width="33%"><div id="room2drop" ondrop="drop(event)" ondragover="allowDrop(event)" style="height:100%; width:100%; background:#FFFAFA"></div></td>
-						<td width="33%"></td>						
+					<tr height="30%"> 
+						<td width="33%" id="doc1pos1"><img src="doctor1.png" alt="Doctor1" style="width:70px;height:70px;"></td>
+						<td width="33%">
+							<table style="width:100%; height:100%;">
+								<tr height="33%"><td>Servent1</td><td>Servent2</td><td></td></tr>
+								<tr height="33%"><td></td><td><img src="bed.png"/><div align="center">Gray</div></td><td></td></tr>
+								<tr height="33%"><td></td><td></td><td>Servent3</td></tr>
+							</table>
+						</td>
+						<td width="33%" id="doc2pos2"></td>						
 					</tr>
-					<tr>
-						<td width="33%"></td>
-						<td width="33%"><div id="room3drop" ondrop="drop(event)" ondragover="allowDrop(event)" style="height:100%; width:100%; background:#FFFAFA"></div></td>
-						<td width="33%"></td>						
+					<tr height="30%">
+						<td width="33%" id="doc1pos2"></td>
+						<td width="33%">
+							<table style="width:100%; height:100%;">
+								<tr><td>Servent3</td><td></td><td></td></tr>
+								<tr><td></td><td><img src="bed.png"/><div align="center">Alan</div></td><td></td></tr>
+								<tr><td></td><td></td><td>Servent4</td></tr>
+							</table>
+						
+						</td>
+						<td width="33%" id="doc2pos1"><img src="doctor2.png" alt="Doctor2" style="width:70px;height:70px;"></td>						
 					</tr>
-					<tr>
-						<td width="33%"></td>
-						<td width="33%"><div id="room4drop" ondrop="drop(event)" ondragover="allowDrop(event)" style="height:100%; width:100%; background:#FFFAFA"></div></td>
-						<td width="33%"></td>						
+					<tr height="100px">
 					</tr>								
 				</table>
 			</td>
 			<td width="33%">
-				  <table id="doc2Table" class="main" style="width:300px; height:600px;" >
+				  <table id="doc2Table" class="main" style="width:300px; height:600px;"  >
 				    <tr valign="top">
 				      	<td >
-				      		<div id="servantList1" style="margin:40px 0px 10px 0px;">
-				      		&nbsp Patient Name: Alan <br/>
+				      		<div id="doc2TopDiv" style="margin:40px 0px 10px 0px;">
+				      		<div id="doc2patientName"></div> <br/>
 				      		<img src="line.png" alt="" width="95%" /><br />
 				        	&nbsp Select Servant<br/><br>
 				        	&nbsp   
-				        	<!-- 
+				        	<div id="servantList2"></div>
+				        	<!-- 				        	
 				        	<button type="button" value="Vitals" onclick="showSkill(1)">Vitals</button>
 				        	<button type="button" value="Medication" onclick="showSkill(2)">Medication</button>
 				        	<button type="button" value="Imaging" onclick="showSkill(3)">Imaging</button>
 				        	<button type="button" value="EHR" onclick="showSkill(4)">EHR</button>
-				        	-->
-				        	<img src="line.png" alt="" width="95%" >
-				        	 
+				        	 -->
+				        	
 				      		</div>
-				      		
+				      		<img src="line.png" alt="" width="95%"/>
 				      		<table id="servants">
 				
 				      		</table>
@@ -367,6 +391,5 @@
 			</td>
 		</tr>			
 	</table>		  
-	<img id="drag1" src="iphoneicon.jpg" draggable="true" ondragstart="drag(event)" width="64" height="64">
 </body>
 </html>
