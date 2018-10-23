@@ -28,14 +28,44 @@
     var txt;
     global++;
 
-    for(i=1;i<=5;i++){
+    for(i=1;i<=8;i++){
     option[i] = document.createElement("OPTION");
-    txt = document.createTextNode("Skill "+i);
 
-    option[i].appendChild(txt);
-
-    select.appendChild(option[i]);
     }
+    txt = document.createTextNode("Get X Ray");
+    option[1].appendChild(txt);
+    select.appendChild(option[1]);
+
+
+    txt = document.createTextNode("Set Exposure Time MAS");
+    option[2].appendChild(txt);
+    select.appendChild(option[2]);
+
+    txt = document.createTextNode("Set Exposure Level KVP");
+    option[3].appendChild(txt);
+    select.appendChild(option[3]);
+
+    txt = document.createTextNode("Set Collimeter X");
+    option[4].appendChild(txt);
+    select.appendChild(option[4]);
+
+    txt = document.createTextNode("Set Collimeter Y");
+    option[5].appendChild(txt);
+    select.appendChild(option[5]);
+
+    txt = document.createTextNode("Set Charge Level");
+    option[6].appendChild(txt);
+    select.appendChild(option[6]);
+
+    txt = document.createTextNode("Set Charge On");
+    option[7].appendChild(txt);
+    select.appendChild(option[7]);
+
+    txt = document.createTextNode("Set Shocking On");
+    option[8].appendChild(txt);
+    select.appendChild(option[8]);
+
+
     select.id="select"+global;
     var btn=document.createElement("input");
     btn.type="button";
@@ -118,12 +148,15 @@
     <td> &nbsp <input type="text" id="servantName" placeholder="Servant Name here" /></td>
   </tr>
   <tr height="30">
-    <td> &nbsp <select id="select1">
-      <option>Skill 1</option>
-      <option>Skill 2</option>
-      <option>Skill 3</option>
-      <option>Skill 4</option>
-      <option>Skill 5</option>
+    <td><select id="select1">
+      <option>Get X Ray</option>
+      <option>Set Exposure Time MAS</option>
+      <option>Set Exposure Level KVP</option>
+      <option>Set Collimeter X</option>
+      <option>Set Collimeter Y</option>
+      <option>Set Charge Level</option>
+      <option>Set Charge On</option>
+      <option>Set Shocking On</option>
 
 
     </select>
