@@ -58,8 +58,8 @@
 
 		var doc1patientName = document.getElementById("doc1patientName");
 		var doc2patientName = document.getElementById("doc2patientName");
-		doc1patientName.innerHTML = "Patient : Gary  Doctor : Mary";
-		doc2patientName.innerHTML = "Patient : Alan  Doctor : John";
+		doc1patientName.innerHTML = "Patient : Gary";
+		doc2patientName.innerHTML = "Patient : Alan";
 
 	}
 
@@ -429,7 +429,8 @@ return new Promise(resolve => setTimeout(resolve, ms));
 			<td width="33%">
 
 				  <table id="doc1Table" class="main" style="width:300px; height:600px;"  >
-				    <tr valign="top">
+                  <br> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Mary's Phone <br>
+            <tr valign="top">
 				      	<td >
 				      		<div id="doc1TopDiv" style="margin:40px 0px 10px 0px;">
 				      		&nbsp <div id="doc1patientName"></div> <br/>
@@ -491,13 +492,16 @@ return new Promise(resolve => setTimeout(resolve, ms));
 				</table>
 			</td>
 			<td width="33%" align="right">
+      Dr. John Phone <br>
 				  <table id="doc2Table" class="main" style="width:300px; height:600px;"  >
-				    <tr valign="top">
+
+            <tr valign="top">
 				      	<td >
+
 				      		<div id="doc2TopDiv" style="margin:40px 0px 10px 0px;">
 				      		<div id="doc2patientName"></div> <br/>
 				      		<img src="line.png" alt="" width="95%" /><br />
-				        	&nbsp Select Servant<br/><br>
+				        	&nbsp Select Servant test<br/><br>
 				        	&nbsp
 				        	<div id="servantList2"></div>
 				        	<!--
