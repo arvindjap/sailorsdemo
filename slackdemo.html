@@ -2,66 +2,131 @@
 <html>
 
 <script>
-function executeWorklens(){
-	console.log("enter executeWorklens");
-	var text = document.getElementById("workItem").value;
-	var activity = document.getElementById("activity").value;
-	var token = document.getElementById("token").value;
+    var workArray=[];
+    function onLoad(){
+
+    }
+function executeWorklens(token){
+    
+    console.log("enter executeWorklens");
+    var text = document.getElementById("workItem").value;
+    var activity = document.getElementById("activity").value;
+    if(workArray.length ==0 ) {
+        document.getElementById("dispMessage").innerHTML = "New Work Item Created";
+    }
+    for(i=0;i<workArray.length;i++){
+        if(workArray[i]==text){
+            document.getElementById("dispMessage").innerHTML = "Already Exists";
+            if(activity!=""){
+                document.getElementById("dispMessage").innerHTML = "Logged succesfully on the work item thread";
+            }
+        } else {
+            //new channell cretaed
+            document.getElementById("dispMessage").innerHTML = "New Work Item Created";            
+            if(activity!=""){
+                document.getElementById("dispMessage").innerHTML = "Map WorkItem First!";
+            }
+        }
+    } 
+    workArray[workArray.length+1]=text;
+
+    console.log(workArray);
+   
+    if(token=='selvah'){
+	var text = document.getElementById("workItem1").value;
+	var activity = document.getElementById("activity1").value;
+    }
 	console.log("text: "+text+"token: "+token +"activity:"+activity+"END OF");
 	let formData = new FormData();
 	if(activity==='')
-	formData.append('text', "#"+text);
+	formData.append('text', text);
 	else
-	formData.append('text', "#"+text+" "+activity);
+	formData.append('text', text+" "+activity);
 	formData.append('token',token);
 	
 	fetch('http://ec2-18-232-95-162.compute-1.amazonaws.com/worklens',{
 		method: 'POST',		
-        body: formData,
-        mode: 'no-cors'
+		body: formData
 	})
 	.then( function (response) {
-        console.log(response)
-		return response
+		return response.json()
 	})
 	.then(function (data){
 		console.log('Post request response data',data)
 	})
 }
-function executelens(){
-    var http = new XMLHttpRequest();
-var url = 'http://ec2-18-232-95-162.compute-1.amazonaws.com/worklens';
-var params = 'text=ipsum&token=arvind';
-http.open('POST', url, true);
 
+function executelens(){
+   var http = new XMLHttpRequest();
+var url = 'http://ec2-18-232-95-162.compute-1.amazonaws.com/worklens';
+
+var params = 'text=ipsum346&token=arvind';
+http.open('POST', url, true);
 //Send the proper header information along with the request
 http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
 http.onreadystatechange = function() {//Call a function when the state changes.
-   if(http.readyState == 4 && http.status == 200) {
-       alert(http.responseText);
-   }
+  if(http.readyState == 4 && http.status == 200) {
+      alert(http.responseText);
+  }
 }
 http.send(params);
 }
+
 </script>
 <style>
-			table,tr,td,th{
-                border: 1px solid black;
-            }	
-table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns.com */ 
+				
+table.table1 { background: url("iphone.png"); /* image courtesy of subtlepatterns.com */ 
 				background-repeat:no-repeat;				
 				background-size: 300px 600px;
 				padding-left: 15px;
 								
 				}
-				
+
+                table.table2 { background: url("iwatch.png"); /* image courtesy of subtlepatterns.com */ 
+				background-repeat:no-repeat;				
+				background-size: 300px 600px;
+				padding-left: 15px;
+								
+				}
+
 </style>
 <body >
 <table>
 	<tr>
 	<td>
-			<table style="width:300px" class="table2" >
+			<table style="width:300px" class="table1" >
+			<tbody>
+			<tr>
+				<td>
+				<table>
+					<tr height="45">
+						
+					</tr>
+					
+				</table>
+				</td>
+			</tr>
+			<tr height="290" valign="top" >
+					<td ><center>
+						<br/><br/>
+							
+							workItem: <input type="text" id="workItem" value="" size="15"/><br/><br/><br/>
+							activity :  <input type="text" id ="activity" value="" size="15"/><br/><br/><br/>
+							<input type="button" value="LOG" onclick="executeWorklens('arvind')"/><br/>
+						</center>
+                        </td>
+                        
+            </tr>
+            
+			<tr align="center" valign="top" height="260">
+				
+			</tr>
+			</tbody>
+			</table>
+		
+        </td>
+        <td>
+			<table style="width:300px"  >
 			<tbody>
 			<tr>
 				<td>
@@ -75,11 +140,9 @@ table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns
 			</tr>
 			<tr height="290" valign="top" >
 					<td><center>
-						<br/><br/>
-							USER: <input type="text" id="token" value="arvind"/><br/><br/><br/>
-							work_item: <input type="text" id="workItem" value="shalupandey"/><br/><br/><br/>
-							activity : <input type="text" id ="activity" value="defib set ON"/><br/><br/><br/>
-							<input type="button" value="LOG" onclick="executeWorklens()"/><br/>
+						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+							
+                            
 						</center>
 						</td>
 			</tr>
@@ -90,6 +153,38 @@ table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns
 			</table>
 		
         </td>
+        <td>
+			<table style="width:300px"  >
+			<tbody>
+			<tr>
+				<td>
+				<table>
+					<tr height="45">
+						
+					</tr>
+					
+				</table>
+				</td>
+			</tr>
+			<tr height="290" valign="top" >
+					<td><center>
+						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <tr>
+                                <td>
+                                    <div id="dispMessage"></div>
+                                </td>
+                            </tr>
+							
+						</center>
+						</td>
+			</tr>
+			<tr align="center" valign="top" height="260">
+				
+			</tr>
+			</tbody>
+			</table>
+		
+		</td>
         <td>
 			<table style="width:300px" class="table2" >
 			<tbody>
@@ -105,11 +200,11 @@ table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns
 			</tr>
 			<tr height="290" valign="top" >
 					<td><center>
-						<br/><br/>
-							USER: <input type="text" id="token" value="arvind"/><br/><br/><br/>
-							work_item: <input type="text" id="workItem" value="shalupandey"/><br/><br/><br/>
-							activity : <input type="text" id ="activity" value="defib set ON"/><br/><br/><br/>
-							<input type="button" value="LOG" onclick="executelens()"/><br/>
+						<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+							
+							work_item:<input type="text" id="workItem1" value="" size="15"/><br/><br/><br/>
+							activity : <input type="text" id ="activity1" value="" size="15"/><br/><br/><br/>
+							<input type="button" value="LOG" onclick="executeWorklens('selvah')"/><br/>
 						</center>
 						</td>
 			</tr>
@@ -119,10 +214,8 @@ table.table2 { background: url("phone.png"); /* image courtesy of subtlepatterns
 			</tbody>
 			</table>
 		
-        </td>
-        
-    </tr>
-    
+		</td>
+	</tr>
 </table>
 
 
