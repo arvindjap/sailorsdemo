@@ -11,6 +11,10 @@ function executeWorklens(token){
     console.log("enter executeWorklens");
     var text = document.getElementById("workItem").value;
     var activity = document.getElementById("activity").value;
+    if(token=='selvah'){
+	 text = document.getElementById("workItem1").value;
+	activity = document.getElementById("activity1").value;
+    }
     if(workArray.length ==0 ) {
         document.getElementById("dispMessage").innerHTML = "New Work Item Created";
     }
@@ -32,10 +36,7 @@ function executeWorklens(token){
 
     console.log(workArray);
    
-    if(token=='selvah'){
-	var text = document.getElementById("workItem1").value;
-	var activity = document.getElementById("activity1").value;
-    }
+    
 	console.log("text: "+text+"token: "+token +"activity:"+activity+"END OF");
 	let formData = new FormData();
 	if(activity==='')
