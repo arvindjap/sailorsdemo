@@ -22,7 +22,7 @@ function executeWorklens(token){
         if(workArray[i]==text){
             document.getElementById("dispMessage").innerHTML = "Already Exists";
             if(activity!=""){
-                document.getElementById("dispMessage").innerHTML = "Logged succesfully on the work item thread";
+                document.getElementById("dispMessage").innerHTML = token+" Logged succesfully on the work item thread";
             }
         } else {
             //new channell cretaed
