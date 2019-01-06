@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<script>
+function executeWorklens(){
+	console.log("enter executeWorklens");
+	var text = document.getElementById("workItem").value;
+	var activity = document.getElementById("activity").value;
+	var token = document.getElementById("token").value;
+	console.log("text: "+text+"token: "+token +"activity:"+activity+"END OF");
+	let formData = new FormData();
+	if(activity==='')
+	formData.append('text', "#"+text);
+	else
+	formData.append('text', "#"+text+" "+activity);
+	formData.append('token',token);
+	
+	fetch('http://ec2-18-232-95-162.compute-1.amazonaws.com/worklens',{
+		method: 'POST',		
+		body: formData
+	})
+	.then( function (response) {
+		return response.json()
+	})
+	.then(function (data){
+		console.log('Post request response data',data)
+	})
+}
+</script>
+<style>
+				
+table.table2 { background: url("sailorsdemo/phone.png"); /* image courtesy of subtlepatterns.com */ 
+				background-repeat:no-repeat;				
+				background-size: 300px 600px;
+				padding-left: 15px;
+								
+				}
+				
+</style>
+<body >
+<table>
+	<tr>
+	<td>
+			<table style="width:300px" class="table2" >
+			<tbody>
+			<tr>
+				<td>
+				<table>
+					<tr height="45">
+						
+					</tr>
+					
+				</table>
+				</td>
+			</tr>
+			<tr height="290" valign="top" >
+					<td><center>
+						<br/><br/>
+							USER: <input type="text" id="token" value="xoxp-16885424038-16972985060-512842182800-ec45f0c719b0e67f6c7ba5fedbc99716"/><br/><br/><br/>
+							work_item: <input type="text" id="workItem" value="shalupandey"/><br/><br/><br/>
+							activity : <input type="text" id ="activity" value="defib set ON"/><br/><br/><br/>
+							<input type="button" value="LOG" onclick="executeWorklens()"/><br/>
+						</center>
+						</td>
+			</tr>
+			<tr align="center" valign="top" height="260">
+				
+			</tr>
+			</tbody>
+			</table>
+		
+		</td>
+	</tr>
+</table>
+
+
+
+
+</body>
+</html> 
